@@ -3,20 +3,25 @@ import shutil
 from pathlib import Path
 
 import pytest
+from langchain_core.messages import AIMessage
 
 from repopilot import indexer
+from repopilot.agent.graph import RepoAgent
 from repopilot.config import Settings
 from repopilot.evals.dataset import EvalSet, GoldQuestion
 from repopilot.evals.judge import Judgement
 from repopilot.evals.metrics import Span
 from repopilot.evals.runner import (
+    agent_pipeline,
     ensure_indexed,
     evaluate_generation,
     evaluate_retrieval,
+    rag_pipeline,
     report_to_markdown,
 )
 from repopilot.store import Store
 from tests.conftest import TEST_DATABASE_URL, FakeAnswerer, HashEmbedder, requires_db
+from tests.fakes import ScriptedChatModel, tool_call
 
 pytestmark = requires_db
 
@@ -87,13 +92,33 @@ class CitingAnswerer(FakeAnswerer):
 def test_evaluate_generation_combines_judge_scores_and_citation_checks(
     store: Store, repo_id: int
 ) -> None:
-    report = evaluate_generation(
-        store, HashEmbedder(), repo_id, EVAL_SET, k=2, answerer=CitingAnswerer(), judge=FixedJudge()
-    )
+    pipeline = rag_pipeline(store, HashEmbedder(), repo_id, k=2, answerer=CitingAnswerer())
 
+    report = evaluate_generation(EVAL_SET, pipeline, judge=FixedJudge(), name="rag")
+
+    assert report.pipeline == "rag"
     assert report.faithfulness == 4.0
     assert report.correctness == 2.0
     assert report.citation_precision == 0.5
     assert report.cited_share == 1.0
+    assert report.evidence_hit_rate == 1.0
     assert len(report.rows) == 2
     json.dumps(report.to_dict())
+
+
+def test_agent_pipeline_scores_the_evidence_the_agent_read(store: Store, repo_id: int) -> None:
+    llm = ScriptedChatModel(
+        responses=[
+            tool_call("read_file", path="pkg/auth.py"),
+            AIMessage(content="It calls check_password [pkg/auth.py:1-2]"),
+            AIMessage(content="I could not find it."),  # second question: no tools used
+        ]
+    )
+    pipeline = agent_pipeline(RepoAgent(llm, store, HashEmbedder()), repo_id)
+
+    report = evaluate_generation(EVAL_SET, pipeline, judge=FixedJudge(), name="agent")
+
+    assert report.pipeline == "agent"
+    assert [r["evidence_hit"] for r in report.rows] == [1.0, 0.0]
+    assert report.rows[0]["citation_precision"] == 1.0
+    assert report.rows[1]["citation_precision"] is None

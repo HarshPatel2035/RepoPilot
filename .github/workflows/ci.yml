@@ -65,7 +65,7 @@ jobs:
           cache: pip
           cache-dependency-path: pyproject.toml
       - run: pip install -e .
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         with:
           path: /home/runner/.cache/fastembed
           key: fastembed-${{ hashFiles('repopilot/config.py') }}
@@ -76,7 +76,7 @@ jobs:
             --gate-mode hybrid --min-hit-rate 0.90 --min-mrr 0.50 \
             --out eval-results/retrieval.json | tee eval-output.txt
           { echo "### Retrieval eval (k=8)"; grep '^|' eval-output.txt; } >> "$GITHUB_STEP_SUMMARY"
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: retrieval-eval
@@ -87,3 +87,5 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - run: docker build -t repopilot .
+      - name: Smoke test the image imports the whole app
+        run: docker run --rm repopilot python -c "import repopilot.api, repopilot.evals.runner"

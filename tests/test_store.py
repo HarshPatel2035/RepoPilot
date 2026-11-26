@@ -80,6 +80,31 @@ def test_search_modes_use_only_their_own_signal(store: Store, embedder: HashEmbe
     assert vector[0]["path"] == "README.md"  # vector mode follows the (unrelated) vector
 
 
+def test_full_files_are_stored_listed_and_replaced(store: Store, embedder: HashEmbedder) -> None:
+    repo_id = store.upsert_repo("https://github.com/a/b")["id"]
+    files = [("src/auth.py", "def login(): ...\n"), ("README.md", "# Hi\n")]
+    store.replace_chunks(repo_id, [AUTH], embedder.embed_documents([AUTH.content]), files=files)
+
+    listed = store.list_paths(repo_id)
+    under_src = store.list_paths(repo_id, prefix="src/")
+    content = store.read_file(repo_id, "src/auth.py")
+    store.replace_chunks(repo_id, [], [], files=[("new.py", "x = 1\n")])
+
+    assert listed == ["README.md", "src/auth.py"]
+    assert under_src == ["src/auth.py"]
+    assert content == "def login(): ...\n"
+    assert store.read_file(repo_id, "src/auth.py") is None
+    assert store.list_paths(repo_id) == ["new.py"]
+
+
+def test_list_paths_treats_prefix_literally(store: Store, embedder: HashEmbedder) -> None:
+    repo_id = store.upsert_repo("https://github.com/a/b")["id"]
+    files = [("a_b.py", "x"), ("axb.py", "y")]
+    store.replace_chunks(repo_id, [], [], files=files)
+
+    assert store.list_paths(repo_id, prefix="a_") == ["a_b.py"]  # "_" is not a LIKE wildcard
+
+
 def test_replace_chunks_drops_the_previous_index(store: Store, embedder: HashEmbedder) -> None:
     repo_id = _index(store, embedder, "https://github.com/a/b", [AUTH, CACHE])
     store.replace_chunks(repo_id, [DOCS], embedder.embed_documents([DOCS.content]))

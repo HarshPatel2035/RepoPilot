@@ -31,12 +31,14 @@ def index_repo(
         with tempfile.TemporaryDirectory(prefix="repopilot-") as tmp:
             checkout = Path(tmp) / "repo"
             clone_repo(url, checkout, ref=ref)
-            files = iter_source_files(checkout, settings.max_file_bytes, settings.max_repo_files)
-            chunks = [chunk for path, text in files for chunk in chunk_lines(path, text)]
+            files = list(
+                iter_source_files(checkout, settings.max_file_bytes, settings.max_repo_files)
+            )
+        chunks = [chunk for path, text in files for chunk in chunk_lines(path, text)]
         if not chunks:
             raise IngestError("no supported source files found in the repository")
         vectors = embedder.embed_documents([embedding_text(c) for c in chunks])
-        store.replace_chunks(repo_id, chunks, vectors)
+        store.replace_chunks(repo_id, chunks, vectors, files=files)
         store.set_status(repo_id, "ready", chunk_count=len(chunks))
         log.info("indexed repo %s (%s): %d chunks", repo_id, url, len(chunks))
     except IngestError as exc:

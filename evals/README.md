@@ -52,14 +52,22 @@ Raw per-question results: [`results/retrieval.json`](results/retrieval.json).
 
 ## Generation eval (needs `GROQ_API_KEY`)
 
-Each question is answered by the full pipeline, then scored:
+Each question is answered end to end by one or both pipelines, then scored:
+
+- **rag** — one hybrid search, one LLM call (what `POST /ask` does)
+- **agent** — the LangGraph agent searching and reading files over several steps
+  (what `POST /agent` does)
 
 | Metric | How |
 |---|---|
-| Faithfulness (1-5) | LLM judge: is every claim supported by the retrieved chunks? |
+| Faithfulness (1-5) | LLM judge: is every claim supported by the evidence the model was shown? |
 | Correctness (1-5) | LLM judge: does the answer agree with the reference answer? |
-| Citation precision | Deterministic: share of `[path:start-end]` citations that point at a chunk the model was actually given (catches invented sources) |
+| Citation precision | Deterministic: share of `[path:start-end]` citations that point at evidence the model was actually shown (catches invented sources) |
 | Answers citing | Share of answers with at least one citation |
+| Evidence hit rate | Share of questions where the model was shown a labelled answer span, the agent's equivalent of retrieval hit rate |
+
+Running both pipelines on the same questions answers the real question for Phase 3: does the
+agent's extra searching and reading buy better answers, and at what cost in LLM calls?
 
 The judge defaults to a different model family (`openai/gpt-oss-120b`) from the answering
 model (`llama-3.3-70b-versatile`), so a model is not grading its own answers. Malformed judge
@@ -75,7 +83,7 @@ Results: not run yet (needs an API key).
 python -m repopilot.evals retrieval                       # all four modes, k=8
 python -m repopilot.evals --k 5 retrieval --modes hybrid  # one mode, different k
 python -m repopilot.evals retrieval --min-hit-rate 0.90 --min-mrr 0.50   # exits 1 if below
-python -m repopilot.evals generation --mode hybrid        # needs GROQ_API_KEY
+python -m repopilot.evals generation                     # rag vs agent, needs GROQ_API_KEY
 ```
 
 In CI, the `retrieval-eval` job runs on every push and fails the build if hybrid drops below

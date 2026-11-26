@@ -20,5 +20,8 @@ class Settings(BaseSettings):
     rerank_model: str = "Xenova/ms-marco-MiniLM-L-6-v2"
     # A different model family from llm_model, so the judge is not grading its own answers.
     judge_model: str = "openai/gpt-oss-120b"
+    agent_max_tool_rounds: int = 6
+    # Optional: raises GitHub's unauthenticated limit of 60 issue requests per hour.
+    github_token: str = ""
     max_file_bytes: int = 200_000
     max_repo_files: int = 5_000

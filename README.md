@@ -6,8 +6,8 @@ RepoPilot clones a repository, splits its source into line-numbered chunks, embe
 Postgres with pgvector, and answers questions with **hybrid retrieval** (vector + keyword search,
 merged with Reciprocal Rank Fusion) and an LLM that must cite `[path:start-end]` for every claim.
 
-> Status: **Phase 2 of 6** — tested, containerised RAG API with a retrieval quality gate in CI.
-> See [Roadmap](#roadmap).
+> Status: **Phase 3 of 6** — RAG API plus a LangGraph agent that investigates code and drafts
+> GitHub issue replies, with a retrieval quality gate in CI. See [Roadmap](#roadmap).
 
 ## Evaluation
 
@@ -87,6 +87,45 @@ Response shape (sources are real retrieval results for this question; answer tex
 | `GET` | `/repos` | List repos and their status (`pending`, `indexing`, `ready`, `failed`) |
 | `GET` | `/repos/{id}` | One repo's status, chunk count and error |
 | `POST` | `/repos/{id}/ask` | Ask a question; returns the answer and its sources |
+| `POST` | `/repos/{id}/agent` | Ask the agent; it searches and reads files over several steps and returns the answer, sources and every tool call it made |
+| `POST` | `/repos/{id}/issues/{n}/draft-reply` | Read GitHub issue `n` and draft a reply for a maintainer to review. Never posts anything |
+
+## Agent
+
+`/ask` does one search and one LLM call. The agent (`/agent`, `/draft-reply`) is a
+[LangGraph](https://langchain-ai.github.io/langgraph/) state machine that decides what to look
+at next, with three read-only tools:
+
+| Tool | What it does |
+|---|---|
+| `search_code(query)` | Hybrid search, returns the top chunks labelled `[path:start-end]` |
+| `list_files(prefix)` | Lists indexed file paths, to explore the layout |
+| `read_file(path, start_line, end_line)` | Reads up to 150 numbered lines of a stored file |
+
+```mermaid
+flowchart LR
+    S([start]) --> A[agent: LLM with tools]
+    A -->|tool calls| T[tools]
+    T -->|tool_rounds + 1| A
+    A -->|answer| E([end])
+    A -.->|budget used up: tool_choice=none| E
+```
+
+- **Every run ends with an answer.** The graph counts tool rounds in its state; when the budget
+  (`AGENT_MAX_TOOL_ROUNDS`, default 6) is spent, the model must answer from the evidence it has,
+  with tool use switched off, instead of crashing into LangGraph's recursion limit.
+- **Traceable.** Each tool records exactly what it showed the model. The response lists those
+  sources and every tool call, so you can audit how an answer was reached.
+- **Safe by design.** Tools are read-only. There is no "run the tests" tool on purpose: running
+  code from an arbitrary public repo needs a real sandbox first. Repository files and issue text
+  are fenced off as untrusted data in the prompt, and issue replies are drafts that a person
+  reviews; RepoPilot never posts to GitHub, which limits what a prompt injection could do.
+
+```bash
+curl -X POST localhost:8000/repos/1/agent -H 'content-type: application/json' \
+  -d '{"question": "Where is the signature checked, and which keys does it try?"}'
+curl -X POST localhost:8000/repos/1/issues/42/draft-reply
+```
 
 ## Design decisions
 
@@ -137,10 +176,11 @@ repopilot/
   api.py         FastAPI app and request/response schemas
   indexer.py     clone -> filter -> chunk -> embed -> store pipeline
   ingest.py      URL validation, git clone, file filtering, line chunker
-  store.py       Postgres schema, hybrid search (vector + full-text + RRF)
+  store.py       Postgres schema, hybrid search (vector + full-text + RRF), stored files
   embeddings.py  fastembed wrapper
   llm.py         prompt building and Groq client
   retrieval.py   search modes + optional cross-encoder reranking
+  agent/         LangGraph agent graph, read-only tools, GitHub issue client
   evals/         golden-set loader, metrics, LLM judge, eval runner and CLI
 evals/           golden question set, results and evaluation write-up
 tests/           unit tests + database-backed store, API and eval tests
@@ -151,7 +191,8 @@ tests/           unit tests + database-backed store, API and eval tests
 1. **RAG core** — FastAPI, pgvector hybrid search, Docker, tests, CI ✅
 2. **Evaluation** — golden question set, retrieval metrics, LLM-as-judge, citation checks,
    eval gate in CI ✅
-3. **Agent** — LangGraph agent with tools: search code, read file, run tests, draft issue replies
+3. **Agent** — LangGraph agent with search, list and read tools; drafts GitHub issue replies ✅
+   (a sandboxed "run tests" tool is deferred until there is a safe sandbox)
 4. **Issue classifier** — scikit-learn baseline vs LoRA-tuned small model, tracked in MLflow
 5. **Frontend + observability** — React UI, tracing, latency and cost dashboard
 6. **Deploy** — Azure Container Apps, CD from GitHub Actions

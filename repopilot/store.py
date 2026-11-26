@@ -41,6 +41,12 @@ CREATE TABLE IF NOT EXISTS chunks (
     tsv        tsvector GENERATED ALWAYS AS (to_tsvector('english', path || ' ' || content)) STORED
 );
 CREATE INDEX IF NOT EXISTS chunks_repo_idx ON chunks (repo_id);
+CREATE TABLE IF NOT EXISTS files (
+    repo_id BIGINT NOT NULL REFERENCES repos(id) ON DELETE CASCADE,
+    path    TEXT NOT NULL,
+    content TEXT NOT NULL,
+    PRIMARY KEY (repo_id, path)
+);
 CREATE INDEX IF NOT EXISTS chunks_tsv_idx ON chunks USING gin (tsv);
 """
 # 'english' text search drops stopwords ("how", "the") and stems words; the eval showed it
@@ -132,9 +138,16 @@ class Store:
             )
 
     def replace_chunks(
-        self, repo_id: int, chunks: Sequence[Chunk], vectors: Sequence[Sequence[float]]
+        self,
+        repo_id: int,
+        chunks: Sequence[Chunk],
+        vectors: Sequence[Sequence[float]],
+        files: Sequence[tuple[str, str]] = (),
     ) -> None:
-        """Atomically swap a repo's chunks, so search never sees a half-built index."""
+        """Atomically swap a repo's chunks and files, so readers never see a half-built index.
+
+        `files` are (path, full text) pairs; the agent's read_file tool reads them.
+        """
         if len(chunks) != len(vectors):
             raise ValueError(f"{len(chunks)} chunks but {len(vectors)} vectors")
         rows = [
@@ -143,6 +156,7 @@ class Store:
         ]
         with self._connect() as conn, conn.transaction(), conn.cursor() as cur:
             cur.execute("DELETE FROM chunks WHERE repo_id = %s", (repo_id,))
+            cur.execute("DELETE FROM files WHERE repo_id = %s", (repo_id,))
             cur.executemany(
                 """
                 INSERT INTO chunks (repo_id, path, start_line, end_line, content, embedding)
@@ -150,6 +164,26 @@ class Store:
                 """,
                 rows,
             )
+            cur.executemany(
+                "INSERT INTO files (repo_id, path, content) VALUES (%s, %s, %s)",
+                [(repo_id, path, text) for path, text in files],
+            )
+
+    def list_paths(self, repo_id: int, prefix: str = "") -> list[str]:
+        # starts_with() instead of LIKE, so "_" and "%" in a prefix are not wildcards.
+        with self._connect() as conn:
+            rows = conn.execute(
+                "SELECT path FROM files WHERE repo_id = %s AND starts_with(path, %s) ORDER BY path",
+                (repo_id, prefix),
+            ).fetchall()
+        return [r["path"] for r in rows]
+
+    def read_file(self, repo_id: int, path: str) -> str | None:
+        with self._connect() as conn:
+            row = conn.execute(
+                "SELECT content FROM files WHERE repo_id = %s AND path = %s", (repo_id, path)
+            ).fetchone()
+        return row["content"] if row else None
 
     def search(
         self,

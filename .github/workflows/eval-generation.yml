@@ -5,8 +5,11 @@ name: generation-eval
 on:
   workflow_dispatch:
     inputs:
+      pipelines:
+        description: "rag, agent, or rag,agent to compare them"
+        default: rag,agent
       mode:
-        description: "Retrieval mode: hybrid, vector, keyword, hybrid+rerank"
+        description: "Retrieval mode for rag: hybrid, vector, keyword, hybrid+rerank"
         default: hybrid
 
 jobs:
@@ -31,6 +34,7 @@ jobs:
       GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
       FASTEMBED_CACHE_PATH: /home/runner/.cache/fastembed
       MODE: ${{ inputs.mode }}
+      PIPELINES: ${{ inputs.pipelines }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v6
@@ -39,17 +43,17 @@ jobs:
           cache: pip
           cache-dependency-path: pyproject.toml
       - run: pip install -e .
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         with:
           path: /home/runner/.cache/fastembed
           key: fastembed-${{ hashFiles('repopilot/config.py') }}
       - name: Generation eval
         shell: bash
         run: |
-          python -m repopilot.evals generation --mode "$MODE" \
+          python -m repopilot.evals generation --pipelines "$PIPELINES" --mode "$MODE" \
             --out eval-results/generation.json | tee eval-output.txt
           { echo "### Generation eval"; grep '^|' eval-output.txt; } >> "$GITHUB_STEP_SUMMARY"
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: generation-eval

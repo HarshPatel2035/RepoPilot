@@ -6,15 +6,18 @@ import logging
 import sys
 from pathlib import Path
 
+from repopilot.agent.graph import RepoAgent
 from repopilot.config import Settings
 from repopilot.embeddings import FastEmbedder
 from repopilot.evals.dataset import load_eval_set
 from repopilot.evals.judge import GroqJudge
 from repopilot.evals.runner import (
+    agent_pipeline,
     ensure_indexed,
     evaluate_generation,
     evaluate_retrieval,
     generation_to_markdown,
+    rag_pipeline,
     report_to_markdown,
 )
 from repopilot.llm import GroqAnswerer
@@ -55,20 +58,28 @@ def main(argv: list[str] | None = None) -> int:
     if not settings.groq_api_key:
         print("GROQ_API_KEY is not set; generation evals need it.", file=sys.stderr)
         return 2
-    base, rr = parse_mode(args.mode)
-    report = evaluate_generation(
-        store,
-        embedder,
-        repo_id,
-        eval_set,
-        args.k,
-        answerer=GroqAnswerer(settings.groq_api_key, settings.llm_model),
-        judge=GroqJudge(settings.groq_api_key, settings.judge_model),
-        mode=base,
-        reranker=get_reranker() if rr else None,
-    )
-    print(generation_to_markdown(report))
-    _write(args.out, report.to_dict())
+    judge = GroqJudge(settings.groq_api_key, settings.judge_model)
+    pipelines = {}
+    for name in args.pipelines.split(","):
+        if name == "rag":
+            base, rr = parse_mode(args.mode)
+            answerer = GroqAnswerer(settings.groq_api_key, settings.llm_model)
+            reranker_for_rag = get_reranker() if rr else None
+            pipelines[name] = rag_pipeline(
+                store, embedder, repo_id, args.k, answerer, base, reranker_for_rag
+            )
+        elif name == "agent":
+            from langchain_groq import ChatGroq
+
+            llm = ChatGroq(model=settings.llm_model, api_key=settings.groq_api_key, temperature=0.1)
+            agent = RepoAgent(llm, store, embedder, settings.agent_max_tool_rounds)
+            pipelines[name] = agent_pipeline(agent, repo_id)
+        else:
+            print(f"unknown pipeline {name!r}; use rag and/or agent", file=sys.stderr)
+            return 2
+    reports = [evaluate_generation(eval_set, run, judge, name) for name, run in pipelines.items()]
+    print(generation_to_markdown(reports))
+    _write(args.out, [r.to_dict() for r in reports])
     return 0
 
 
@@ -114,7 +125,8 @@ def _parser() -> argparse.ArgumentParser:
     retrieval.add_argument("--out", type=Path, default=Path("evals/results/retrieval.json"))
 
     generation = sub.add_parser("generation", help="answer + LLM judge, needs GROQ_API_KEY")
-    generation.add_argument("--mode", default="hybrid")
+    generation.add_argument("--pipelines", default="rag,agent", help="rag, agent or both")
+    generation.add_argument("--mode", default="hybrid", help="retrieval mode for the rag pipeline")
     generation.add_argument("--out", type=Path, default=Path("evals/results/generation.json"))
     return parser
 
