@@ -17,6 +17,7 @@ from repopilot.ingest import Chunk
 # Reciprocal Rank Fusion constant: 60 is the value from the original RRF paper.
 RRF_K = 60
 MIN_CANDIDATES = 20
+SEARCH_MODES = frozenset({"hybrid", "vector", "keyword"})
 
 _SCHEMA = """
 CREATE EXTENSION IF NOT EXISTS vector;
@@ -37,11 +38,15 @@ CREATE TABLE IF NOT EXISTS chunks (
     end_line   INT NOT NULL,
     content    TEXT NOT NULL,
     embedding  vector({dim}) NOT NULL,
-    tsv        tsvector GENERATED ALWAYS AS (to_tsvector('simple', path || ' ' || content)) STORED
+    tsv        tsvector GENERATED ALWAYS AS (to_tsvector('english', path || ' ' || content)) STORED
 );
 CREATE INDEX IF NOT EXISTS chunks_repo_idx ON chunks (repo_id);
 CREATE INDEX IF NOT EXISTS chunks_tsv_idx ON chunks USING gin (tsv);
 """
+# 'english' text search drops stopwords ("how", "the") and stems words; the eval showed it
+# raises keyword hit@5 from 0.42 to 0.69 over 'simple' (see evals/README.md).
+# shortcut: no migrations; CREATE IF NOT EXISTS won't alter an existing table, so drop the
+# tables after schema changes. Add Alembic or similar before real users have data.
 # shortcut: exact vector scan per repo (fine up to ~100k chunks); add an HNSW index with
 # iterative scans when repos get bigger.
 
@@ -51,14 +56,14 @@ WITH vec AS (
     FROM chunks
     WHERE repo_id = %(repo_id)s
     ORDER BY embedding <=> %(qvec)s
-    LIMIT %(candidates)s
+    LIMIT %(vec_limit)s
 ),
 kw AS (
     SELECT id, row_number() OVER (ORDER BY ts_rank_cd(tsv, q) DESC) AS rank
-    FROM chunks, to_tsquery('simple', %(tsquery)s) AS q
+    FROM chunks, to_tsquery('english', %(tsquery)s) AS q
     WHERE repo_id = %(repo_id)s AND tsv @@ q
     ORDER BY ts_rank_cd(tsv, q) DESC
-    LIMIT %(candidates)s
+    LIMIT %(kw_limit)s
 )
 SELECT c.id, c.path, c.start_line, c.end_line, c.content,
        (COALESCE(1.0 / (%(rrf_k)s + vec.rank), 0)
@@ -147,14 +152,26 @@ class Store:
             )
 
     def search(
-        self, repo_id: int, query_text: str, query_vector: Sequence[float], k: int
+        self,
+        repo_id: int,
+        query_text: str,
+        query_vector: Sequence[float],
+        k: int,
+        mode: str = "hybrid",
     ) -> list[dict[str, Any]]:
-        """Hybrid search: vector similarity + keyword match, merged with Reciprocal Rank Fusion."""
+        """Top-k chunks by vector similarity, keyword match, or both merged with RRF.
+
+        "vector" and "keyword" exist so evaluations can measure what each half adds.
+        """
+        if mode not in SEARCH_MODES:
+            raise ValueError(f"unknown search mode {mode!r}")
+        candidates = max(k * 4, MIN_CANDIDATES)
         params = {
             "repo_id": repo_id,
             "qvec": np.asarray(query_vector, dtype=np.float32),
             "tsquery": _to_or_tsquery(query_text),
-            "candidates": max(k * 4, MIN_CANDIDATES),
+            "vec_limit": 0 if mode == "keyword" else candidates,
+            "kw_limit": 0 if mode == "vector" else candidates,
             "rrf_k": RRF_K,
             "k": k,
         }

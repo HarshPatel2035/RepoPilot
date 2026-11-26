@@ -1,0 +1,1916 @@
+[
+  {
+    "mode": "vector",
+    "k": 8,
+    "hit_rate": 0.8461538461538461,
+    "recall": 0.8012820512820513,
+    "mrr": 0.5192307692307693,
+    "ndcg": 0.5714567575556216,
+    "p50_latency_ms": 11.3,
+    "rows": [
+      {
+        "id": "verify-multi-key",
+        "latency_ms": 12.3,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 0.3333333333333333,
+        "ndcg": 0.5,
+        "retrieved": [
+          "tests/test_itsdangerous/test_signer.py:91-109",
+          "tests/test_itsdangerous/test_signer.py:1-40",
+          "src/itsdangerous/signer.py:211-250",
+          "tests/test_itsdangerous/test_signer.py:31-70",
+          "src/itsdangerous/signer.py:61-100",
+          "src/itsdangerous/serializer.py:181-220",
+          "tests/test_itsdangerous/test_signer.py:61-100",
+          "docs/concepts.rst:1-40"
+        ]
+      },
+      {
+        "id": "signing-key-choice",
+        "latency_ms": 12.3,
+        "hit": 1.0,
+        "recall": 0.5,
+        "rr": 0.25,
+        "ndcg": 0.2640681225725909,
+        "retrieved": [
+          "src/itsdangerous/signer.py:61-100",
+          "src/itsdangerous/serializer.py:181-220",
+          "docs/concepts.rst:121-154",
+          "src/itsdangerous/signer.py:151-190",
+          "tests/test_itsdangerous/test_signer.py:91-109",
+          "docs/concepts.rst:91-130",
+          "src/itsdangerous/signer.py:181-220",
+          "docs/serializer.rst:91-112"
+        ]
+      },
+      {
+        "id": "key-derivation-options",
+        "latency_ms": 11.4,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 1.0,
+        "ndcg": 0.8772153153380493,
+        "retrieved": [
+          "src/itsdangerous/signer.py:151-190",
+          "src/itsdangerous/signer.py:181-220",
+          "src/itsdangerous/signer.py:211-250",
+          "src/itsdangerous/signer.py:121-160",
+          "src/itsdangerous/signer.py:91-130",
+          "src/itsdangerous/signer.py:61-100",
+          "CHANGES.rst:91-130",
+          "src/itsdangerous/serializer.py:181-220"
+        ]
+      },
+      {
+        "id": "default-hash",
+        "latency_ms": 9.9,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 0.3333333333333333,
+        "ndcg": 0.5706417189553201,
+        "retrieved": [
+          "docs/concepts.rst:121-154",
+          "src/itsdangerous/signer.py:61-100",
+          "src/itsdangerous/signer.py:91-130",
+          "src/itsdangerous/signer.py:31-70",
+          "CHANGES.rst:91-130",
+          "src/itsdangerous/signer.py:151-190",
+          "tests/test_itsdangerous/test_signer.py:91-109",
+          "src/itsdangerous/signer.py:121-160"
+        ]
+      },
+      {
+        "id": "lazy-sha1",
+        "latency_ms": 12.1,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 0.16666666666666666,
+        "ndcg": 0.3562071871080222,
+        "retrieved": [
+          "CHANGES.rst:1-40",
+          "CHANGES.rst:91-130",
+          "src/itsdangerous/url_safe.py:1-40",
+          "tests/test_itsdangerous/test_serializer.py:1-40",
+          "tests/test_itsdangerous/test_serializer.py:181-197",
+          "src/itsdangerous/signer.py:31-70",
+          "tests/test_itsdangerous/test_url_safe.py:1-24",
+          "src/itsdangerous/url_safe.py:31-70"
+        ]
+      },
+      {
+        "id": "timing-attack",
+        "latency_ms": 11.0,
+        "hit": 0.0,
+        "recall": 0.0,
+        "rr": 0.0,
+        "ndcg": 0.0,
+        "retrieved": [
+          "src/itsdangerous/timed.py:211-228",
+          "tests/test_itsdangerous/test_signer.py:91-109",
+          "src/itsdangerous/timed.py:61-100",
+          "src/itsdangerous/timed.py:181-220",
+          "src/itsdangerous/timed.py:151-190",
+          "tests/test_itsdangerous/test_timed.py:91-115",
+          "tests/test_itsdangerous/test_timed.py:31-70",
+          "docs/timed.rst:1-28"
+        ]
+      },
+      {
+        "id": "bad-separator",
+        "latency_ms": 11.7,
+        "hit": 0.0,
+        "recall": 0.0,
+        "rr": 0.0,
+        "ndcg": 0.0,
+        "retrieved": [
+          "src/itsdangerous/url_safe.py:61-83",
+          "src/itsdangerous/url_safe.py:1-40",
+          "src/itsdangerous/url_safe.py:31-70",
+          "src/itsdangerous/encoding.py:31-54",
+          "src/itsdangerous/encoding.py:1-40",
+          "CHANGES.rst:121-160",
+          "src/itsdangerous/serializer.py:241-280",
+          "tests/test_itsdangerous/test_encoding.py:1-37"
+        ]
+      },
+      {
+        "id": "none-algorithm",
+        "latency_ms": 10.3,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 1.0,
+        "ndcg": 1.0,
+        "retrieved": [
+          "src/itsdangerous/signer.py:31-70",
+          "tests/test_itsdangerous/test_signer.py:91-109",
+          "src/itsdangerous/signer.py:1-40",
+          "tests/test_itsdangerous/test_signer.py:1-40",
+          "src/itsdangerous/signer.py:151-190",
+          "docs/conf.py:31-55",
+          "tests/test_itsdangerous/test_signer.py:61-100",
+          "src/itsdangerous/serializer.py:181-220"
+        ]
+      },
+      {
+        "id": "unsign-missing-sep",
+        "latency_ms": 12.8,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 0.5,
+        "ndcg": 0.6309297535714575,
+        "retrieved": [
+          "tests/test_itsdangerous/test_signer.py:61-100",
+          "src/itsdangerous/signer.py:241-266",
+          "docs/signer.rst:31-49",
+          "tests/test_itsdangerous/test_signer.py:31-70",
+          "src/itsdangerous/exc.py:91-106",
+          "src/itsdangerous/timed.py:91-130",
+          "src/itsdangerous/timed.py:61-100",
+          "docs/serializer.rst:61-100"
+        ]
+      },
+      {
+        "id": "timestamp-format",
+        "latency_ms": 11.3,
+        "hit": 0.0,
+        "recall": 0.0,
+        "rr": 0.0,
+        "ndcg": 0.0,
+        "retrieved": [
+          "src/itsdangerous/timed.py:151-190",
+          "src/itsdangerous/timed.py:61-100",
+          "src/itsdangerous/timed.py:1-40",
+          "src/itsdangerous/exc.py:31-70",
+          "docs/timed.rst:1-28",
+          "src/itsdangerous/timed.py:121-160",
+          "src/itsdangerous/timed.py:181-220",
+          "tests/test_itsdangerous/test_timed.py:31-70"
+        ]
+      },
+      {
+        "id": "max-age-expired",
+        "latency_ms": 11.2,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 0.3333333333333333,
+        "ndcg": 0.5437713091520254,
+        "retrieved": [
+          "src/itsdangerous/timed.py:181-220",
+          "src/itsdangerous/timed.py:211-228",
+          "src/itsdangerous/exc.py:61-100",
+          "docs/signer.rst:31-49",
+          "src/itsdangerous/timed.py:121-160",
+          "docs/timed.rst:1-28",
+          "docs/serializer.rst:31-70",
+          "tests/test_itsdangerous/test_timed.py:31-70"
+        ]
+      },
+      {
+        "id": "future-timestamp",
+        "latency_ms": 12.1,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 0.25,
+        "ndcg": 0.43067655807339306,
+        "retrieved": [
+          "src/itsdangerous/exc.py:31-70",
+          "docs/timed.rst:1-28",
+          "src/itsdangerous/timed.py:61-100",
+          "src/itsdangerous/timed.py:121-160",
+          "README.md:1-40",
+          "src/itsdangerous/timed.py:211-228",
+          "src/itsdangerous/timed.py:1-40",
+          "src/itsdangerous/exc.py:61-100"
+        ]
+      },
+      {
+        "id": "when-signed",
+        "latency_ms": 10.5,
+        "hit": 1.0,
+        "recall": 0.6666666666666666,
+        "rr": 0.25,
+        "ndcg": 0.38364913903790027,
+        "retrieved": [
+          "tests/test_itsdangerous/test_timed.py:61-100",
+          "tests/test_itsdangerous/test_timed.py:31-70",
+          "src/itsdangerous/signer.py:241-266",
+          "src/itsdangerous/timed.py:151-190",
+          "src/itsdangerous/timed.py:61-100",
+          "tests/test_itsdangerous/test_timed.py:91-115",
+          "docs/timed.rst:1-28",
+          "src/itsdangerous/exc.py:31-70"
+        ]
+      },
+      {
+        "id": "url-safe-compression",
+        "latency_ms": 10.9,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 0.5,
+        "ndcg": 0.6309297535714575,
+        "retrieved": [
+          "docs/url_safe.rst:1-21",
+          "src/itsdangerous/url_safe.py:61-83",
+          "docs/serializer.rst:31-70",
+          "src/itsdangerous/url_safe.py:1-40",
+          "docs/concepts.rst:61-100",
+          "docs/serializer.rst:61-100",
+          "src/itsdangerous/url_safe.py:31-70",
+          "tests/test_itsdangerous/test_url_safe.py:1-24"
+        ]
+      },
+      {
+        "id": "url-safe-decompress",
+        "latency_ms": 12.3,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 1.0,
+        "ndcg": 1.0,
+        "retrieved": [
+          "src/itsdangerous/url_safe.py:31-70",
+          "src/itsdangerous/serializer.py:391-406",
+          "src/itsdangerous/url_safe.py:61-83",
+          "src/itsdangerous/url_safe.py:1-40",
+          "src/itsdangerous/exc.py:91-106",
+          "tests/test_itsdangerous/test_serializer.py:91-130",
+          "docs/serializer.rst:31-70",
+          "docs/serializer.rst:61-100"
+        ]
+      },
+      {
+        "id": "fallback-signers",
+        "latency_ms": 11.3,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 0.5,
+        "ndcg": 0.6509209298071326,
+        "retrieved": [
+          "src/itsdangerous/serializer.py:151-190",
+          "src/itsdangerous/serializer.py:301-340",
+          "src/itsdangerous/serializer.py:271-310",
+          "src/itsdangerous/serializer.py:61-100",
+          "src/itsdangerous/serializer.py:211-250",
+          "docs/serializer.rst:61-100",
+          "tests/test_itsdangerous/test_serializer.py:151-190",
+          "src/itsdangerous/serializer.py:181-220"
+        ]
+      },
+      {
+        "id": "loads-multiple-signers",
+        "latency_ms": 14.3,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 0.25,
+        "ndcg": 0.43067655807339306,
+        "retrieved": [
+          "docs/serializer.rst:61-100",
+          "src/itsdangerous/serializer.py:211-250",
+          "tests/test_itsdangerous/test_serializer.py:91-130",
+          "src/itsdangerous/serializer.py:331-370",
+          "tests/test_itsdangerous/test_serializer.py:151-190",
+          "docs/serializer.rst:1-40",
+          "tests/test_itsdangerous/test_serializer.py:121-160",
+          "src/itsdangerous/serializer.py:61-100"
+        ]
+      },
+      {
+        "id": "loads-unsafe",
+        "latency_ms": 14.1,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 1.0,
+        "ndcg": 1.0,
+        "retrieved": [
+          "src/itsdangerous/serializer.py:391-406",
+          "src/itsdangerous/serializer.py:361-400",
+          "tests/test_itsdangerous/test_serializer.py:91-130",
+          "src/itsdangerous/timed.py:211-228",
+          "docs/serializer.rst:61-100",
+          "src/itsdangerous/serializer.py:331-370",
+          "src/itsdangerous/exc.py:91-106",
+          "src/itsdangerous/url_safe.py:31-70"
+        ]
+      },
+      {
+        "id": "bad-payload",
+        "latency_ms": 15.1,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 1.0,
+        "ndcg": 0.8315546295836225,
+        "retrieved": [
+          "src/itsdangerous/exc.py:91-106",
+          "src/itsdangerous/url_safe.py:31-70",
+          "CHANGES.rst:211-250",
+          "src/itsdangerous/serializer.py:391-406",
+          "docs/serializer.rst:61-100",
+          "src/itsdangerous/serializer.py:241-280",
+          "docs/serializer.rst:31-70",
+          "src/itsdangerous/serializer.py:361-400"
+        ]
+      },
+      {
+        "id": "exception-hierarchy",
+        "latency_ms": 17.8,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 0.5,
+        "ndcg": 0.6309297535714575,
+        "retrieved": [
+          "docs/exceptions.rst:1-22",
+          "src/itsdangerous/exc.py:91-106",
+          "src/itsdangerous/exc.py:1-40",
+          "src/itsdangerous/serializer.py:361-400",
+          "pyproject.toml:31-70",
+          "src/itsdangerous/serializer.py:391-406",
+          "src/itsdangerous/exc.py:61-100",
+          "src/itsdangerous/timed.py:211-228"
+        ]
+      },
+      {
+        "id": "date-signed",
+        "latency_ms": 11.3,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 0.3333333333333333,
+        "ndcg": 0.5,
+        "retrieved": [
+          "src/itsdangerous/timed.py:211-228",
+          "src/itsdangerous/timed.py:181-220",
+          "src/itsdangerous/exc.py:31-70",
+          "src/itsdangerous/exc.py:61-100",
+          "docs/timed.rst:1-28",
+          "docs/serializer.rst:31-70",
+          "docs/signer.rst:31-49",
+          "src/itsdangerous/timed.py:121-160"
+        ]
+      },
+      {
+        "id": "base64-padding",
+        "latency_ms": 9.7,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 1.0,
+        "ndcg": 1.0,
+        "retrieved": [
+          "src/itsdangerous/encoding.py:1-40",
+          "src/itsdangerous/encoding.py:31-54",
+          "src/itsdangerous/url_safe.py:1-40",
+          "src/itsdangerous/url_safe.py:31-70",
+          "docs/encoding.rst:1-8",
+          "tests/test_itsdangerous/test_encoding.py:1-37",
+          "src/itsdangerous/url_safe.py:61-83",
+          "CHANGES.rst:121-160"
+        ]
+      },
+      {
+        "id": "int-to-bytes",
+        "latency_ms": 10.6,
+        "hit": 0.0,
+        "recall": 0.0,
+        "rr": 0.0,
+        "ndcg": 0.0,
+        "retrieved": [
+          "src/itsdangerous/timed.py:31-70",
+          "src/itsdangerous/timed.py:61-100",
+          "src/itsdangerous/timed.py:121-160",
+          "src/itsdangerous/timed.py:91-130",
+          "src/itsdangerous/timed.py:1-40",
+          "src/itsdangerous/timed.py:151-190",
+          "src/itsdangerous/timed.py:181-220",
+          "docs/timed.rst:1-28"
+        ]
+      },
+      {
+        "id": "salt-purpose",
+        "latency_ms": 10.6,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 1.0,
+        "ndcg": 1.0,
+        "retrieved": [
+          "docs/concepts.rst:61-100",
+          "docs/concepts.rst:31-70",
+          "src/itsdangerous/serializer.py:211-250",
+          "src/itsdangerous/serializer.py:391-406",
+          "tests/test_itsdangerous/test_serializer.py:121-160",
+          "CHANGES.rst:121-160",
+          "src/itsdangerous/exc.py:91-106",
+          "src/itsdangerous/url_safe.py:31-70"
+        ]
+      },
+      {
+        "id": "generate-secret",
+        "latency_ms": 9.8,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 1.0,
+        "ndcg": 1.0,
+        "retrieved": [
+          "docs/concepts.rst:31-70",
+          "src/itsdangerous/signer.py:181-220",
+          "docs/index.rst:1-40",
+          "src/itsdangerous/signer.py:151-190",
+          "src/itsdangerous/signer.py:211-250",
+          "src/itsdangerous/signer.py:61-100",
+          "docs/concepts.rst:121-154",
+          "tests/test_itsdangerous/test_signer.py:91-109"
+        ]
+      },
+      {
+        "id": "default-salts",
+        "latency_ms": 11.2,
+        "hit": 1.0,
+        "recall": 0.6666666666666666,
+        "rr": 1.0,
+        "ndcg": 0.6257049680303419,
+        "retrieved": [
+          "src/itsdangerous/serializer.py:211-250",
+          "docs/concepts.rst:61-100",
+          "tests/test_itsdangerous/test_serializer.py:121-160",
+          "src/itsdangerous/serializer.py:331-370",
+          "src/itsdangerous/serializer.py:181-220",
+          "src/itsdangerous/serializer.py:391-406",
+          "src/itsdangerous/signer.py:151-190",
+          "src/itsdangerous/timed.py:211-228"
+        ]
+      }
+    ]
+  },
+  {
+    "mode": "keyword",
+    "k": 8,
+    "hit_rate": 0.7692307692307693,
+    "recall": 0.6858974358974359,
+    "mrr": 0.38209706959706957,
+    "ndcg": 0.42860807679513035,
+    "p50_latency_ms": 12.1,
+    "rows": [
+      {
+        "id": "verify-multi-key",
+        "latency_ms": 11.6,
+        "hit": 0.0,
+        "recall": 0.0,
+        "rr": 0.0,
+        "ndcg": 0.0,
+        "retrieved": [
+          "src/itsdangerous/signer.py:181-220",
+          "src/itsdangerous/signer.py:61-100",
+          "tests/test_itsdangerous/test_signer.py:61-100",
+          "src/itsdangerous/signer.py:151-190",
+          "src/itsdangerous/serializer.py:181-220",
+          "docs/concepts.rst:1-40",
+          "src/itsdangerous/serializer.py:61-100",
+          "docs/concepts.rst:91-130"
+        ]
+      },
+      {
+        "id": "signing-key-choice",
+        "latency_ms": 14.9,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 0.25,
+        "ndcg": 0.5012658353418871,
+        "retrieved": [
+          "src/itsdangerous/signer.py:181-220",
+          "src/itsdangerous/signer.py:61-100",
+          "docs/concepts.rst:91-130",
+          "src/itsdangerous/signer.py:121-160",
+          "src/itsdangerous/signer.py:151-190",
+          "docs/concepts.rst:1-40",
+          "docs/concepts.rst:31-70",
+          "src/itsdangerous/signer.py:211-250"
+        ]
+      },
+      {
+        "id": "key-derivation-options",
+        "latency_ms": 13.5,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 1.0,
+        "ndcg": 0.8772153153380493,
+        "retrieved": [
+          "src/itsdangerous/signer.py:181-220",
+          "src/itsdangerous/signer.py:151-190",
+          "src/itsdangerous/signer.py:61-100",
+          "src/itsdangerous/signer.py:91-130",
+          "src/itsdangerous/serializer.py:61-100",
+          "src/itsdangerous/signer.py:121-160",
+          "tests/test_itsdangerous/test_signer.py:61-100",
+          "docs/concepts.rst:91-130"
+        ]
+      },
+      {
+        "id": "default-hash",
+        "latency_ms": 14.0,
+        "hit": 1.0,
+        "recall": 0.5,
+        "rr": 1.0,
+        "ndcg": 0.6131471927654584,
+        "retrieved": [
+          "src/itsdangerous/signer.py:91-130",
+          "src/itsdangerous/serializer.py:61-100",
+          "src/itsdangerous/signer.py:61-100",
+          "CHANGES.rst:61-100",
+          "tests/test_itsdangerous/test_signer.py:31-70",
+          "src/itsdangerous/serializer.py:31-70",
+          "tests/test_itsdangerous/test_timed.py:61-100",
+          "tests/test_itsdangerous/test_serializer.py:91-130"
+        ]
+      },
+      {
+        "id": "lazy-sha1",
+        "latency_ms": 12.9,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 0.2,
+        "ndcg": 0.38685280723454163,
+        "retrieved": [
+          "src/itsdangerous/__init__.py:1-38",
+          "tests/test_itsdangerous/test_serializer.py:1-40",
+          "src/itsdangerous/timed.py:1-40",
+          "tests/test_itsdangerous/test_timed.py:1-40",
+          "src/itsdangerous/signer.py:1-40",
+          "src/itsdangerous/serializer.py:1-40",
+          "src/itsdangerous/url_safe.py:1-40",
+          "tests/test_itsdangerous/test_signer.py:1-40"
+        ]
+      },
+      {
+        "id": "timing-attack",
+        "latency_ms": 12.6,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 1.0,
+        "ndcg": 1.0,
+        "retrieved": [
+          "src/itsdangerous/signer.py:1-40",
+          "src/itsdangerous/signer.py:211-250",
+          "src/itsdangerous/timed.py:181-220",
+          "src/itsdangerous/exc.py:31-70",
+          "docs/signer.rst:1-40",
+          "docs/serializer.rst:61-100",
+          "src/itsdangerous/exc.py:1-40",
+          "src/itsdangerous/serializer.py:331-370"
+        ]
+      },
+      {
+        "id": "bad-separator",
+        "latency_ms": 12.1,
+        "hit": 0.0,
+        "recall": 0.0,
+        "rr": 0.0,
+        "ndcg": 0.0,
+        "retrieved": [
+          "tests/test_itsdangerous/test_encoding.py:1-37",
+          "src/itsdangerous/encoding.py:1-40",
+          "src/itsdangerous/url_safe.py:1-40",
+          "src/itsdangerous/url_safe.py:31-70",
+          "src/itsdangerous/__init__.py:1-38",
+          "src/itsdangerous/exc.py:61-100",
+          "tests/test_itsdangerous/test_signer.py:31-70",
+          "src/itsdangerous/url_safe.py:61-83"
+        ]
+      },
+      {
+        "id": "none-algorithm",
+        "latency_ms": 11.0,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 0.3333333333333333,
+        "ndcg": 0.5,
+        "retrieved": [
+          "src/itsdangerous/__init__.py:1-38",
+          "docs/signer.rst:31-49",
+          "src/itsdangerous/signer.py:1-40",
+          "src/itsdangerous/signer.py:31-70",
+          "tests/test_itsdangerous/test_signer.py:1-40",
+          "tests/test_itsdangerous/test_signer.py:61-100"
+        ]
+      },
+      {
+        "id": "unsign-missing-sep",
+        "latency_ms": 13.9,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 1.0,
+        "ndcg": 1.0,
+        "retrieved": [
+          "src/itsdangerous/signer.py:211-250",
+          "tests/test_itsdangerous/test_serializer.py:91-130",
+          "tests/test_itsdangerous/test_serializer.py:121-160",
+          "tests/test_itsdangerous/test_serializer.py:61-100",
+          "src/itsdangerous/signer.py:241-266",
+          "src/itsdangerous/timed.py:31-70",
+          "src/itsdangerous/timed.py:91-130",
+          "tests/test_itsdangerous/test_encoding.py:1-37"
+        ]
+      },
+      {
+        "id": "timestamp-format",
+        "latency_ms": 12.8,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 0.2,
+        "ndcg": 0.38685280723454163,
+        "retrieved": [
+          "tests/test_itsdangerous/test_serializer.py:91-130",
+          "src/itsdangerous/signer.py:211-250",
+          "tests/test_itsdangerous/test_serializer.py:61-100",
+          "tests/test_itsdangerous/test_timed.py:31-70",
+          "src/itsdangerous/timed.py:31-70",
+          "tests/test_itsdangerous/test_serializer.py:121-160",
+          "src/itsdangerous/signer.py:241-266",
+          "src/itsdangerous/timed.py:121-160"
+        ]
+      },
+      {
+        "id": "max-age-expired",
+        "latency_ms": 12.1,
+        "hit": 1.0,
+        "recall": 0.5,
+        "rr": 1.0,
+        "ndcg": 0.6131471927654584,
+        "retrieved": [
+          "src/itsdangerous/timed.py:121-160",
+          "tests/test_itsdangerous/test_timed.py:31-70",
+          "tests/test_itsdangerous/test_serializer.py:61-100",
+          "tests/test_itsdangerous/test_serializer.py:91-130",
+          "tests/test_itsdangerous/test_timed.py:61-100",
+          "src/itsdangerous/timed.py:91-130",
+          "src/itsdangerous/timed.py:181-220",
+          "tests/test_itsdangerous/test_signer.py:31-70"
+        ]
+      },
+      {
+        "id": "future-timestamp",
+        "latency_ms": 12.7,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 0.2,
+        "ndcg": 0.38685280723454163,
+        "retrieved": [
+          "src/itsdangerous/timed.py:31-70",
+          "README.md:1-40",
+          "src/itsdangerous/timed.py:1-40",
+          "src/itsdangerous/timed.py:61-100",
+          "src/itsdangerous/timed.py:121-160",
+          "tests/test_itsdangerous/test_timed.py:31-70",
+          "src/itsdangerous/timed.py:91-130",
+          "src/itsdangerous/timed.py:181-220"
+        ]
+      },
+      {
+        "id": "when-signed",
+        "latency_ms": 13.6,
+        "hit": 0.0,
+        "recall": 0.0,
+        "rr": 0.0,
+        "ndcg": 0.0,
+        "retrieved": [
+          "tests/test_itsdangerous/test_serializer.py:91-130",
+          "tests/test_itsdangerous/test_serializer.py:61-100",
+          "src/itsdangerous/signer.py:211-250",
+          "tests/test_itsdangerous/test_serializer.py:121-160",
+          "src/itsdangerous/signer.py:241-266",
+          "tests/test_itsdangerous/test_timed.py:31-70",
+          "tests/test_itsdangerous/test_timed.py:91-115",
+          "tests/test_itsdangerous/test_timed.py:61-100"
+        ]
+      },
+      {
+        "id": "url-safe-compression",
+        "latency_ms": 13.9,
+        "hit": 0.0,
+        "recall": 0.0,
+        "rr": 0.0,
+        "ndcg": 0.0,
+        "retrieved": [
+          "tests/test_itsdangerous/test_serializer.py:121-160",
+          "src/itsdangerous/serializer.py:91-130",
+          "src/itsdangerous/serializer.py:31-70",
+          "tests/test_itsdangerous/test_serializer.py:31-70",
+          "src/itsdangerous/serializer.py:241-280",
+          "tests/test_itsdangerous/test_serializer.py:151-190",
+          "src/itsdangerous/serializer.py:211-250",
+          "docs/serializer.rst:1-40"
+        ]
+      },
+      {
+        "id": "url-safe-decompress",
+        "latency_ms": 16.4,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 0.5,
+        "ndcg": 0.6309297535714575,
+        "retrieved": [
+          "src/itsdangerous/serializer.py:361-400",
+          "src/itsdangerous/url_safe.py:31-70",
+          "docs/serializer.rst:31-70",
+          "tests/test_itsdangerous/test_serializer.py:61-100",
+          "src/itsdangerous/serializer.py:241-280",
+          "src/itsdangerous/url_safe.py:1-40",
+          "src/itsdangerous/serializer.py:331-370",
+          "src/itsdangerous/url_safe.py:61-83"
+        ]
+      },
+      {
+        "id": "fallback-signers",
+        "latency_ms": 11.7,
+        "hit": 1.0,
+        "recall": 0.5,
+        "rr": 0.25,
+        "ndcg": 0.2640681225725909,
+        "retrieved": [
+          "tests/test_itsdangerous/test_serializer.py:121-160",
+          "src/itsdangerous/serializer.py:211-250",
+          "src/itsdangerous/serializer.py:91-130",
+          "src/itsdangerous/serializer.py:31-70",
+          "src/itsdangerous/serializer.py:241-280",
+          "tests/test_itsdangerous/test_serializer.py:151-190",
+          "src/itsdangerous/serializer.py:61-100",
+          "docs/serializer.rst:1-40"
+        ]
+      },
+      {
+        "id": "loads-multiple-signers",
+        "latency_ms": 11.4,
+        "hit": 0.0,
+        "recall": 0.0,
+        "rr": 0.0,
+        "ndcg": 0.0,
+        "retrieved": [
+          "src/itsdangerous/serializer.py:91-130",
+          "src/itsdangerous/serializer.py:211-250",
+          "src/itsdangerous/serializer.py:61-100",
+          "tests/test_itsdangerous/test_serializer.py:121-160",
+          "src/itsdangerous/serializer.py:121-160",
+          "src/itsdangerous/serializer.py:31-70",
+          "src/itsdangerous/serializer.py:181-220",
+          "tests/test_itsdangerous/test_serializer.py:151-190"
+        ]
+      },
+      {
+        "id": "loads-unsafe",
+        "latency_ms": 11.4,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 1.0,
+        "ndcg": 1.0,
+        "retrieved": [
+          "src/itsdangerous/serializer.py:361-400",
+          "src/itsdangerous/timed.py:151-190",
+          "src/itsdangerous/serializer.py:241-280",
+          "src/itsdangerous/serializer.py:331-370",
+          "src/itsdangerous/signer.py:181-220",
+          "src/itsdangerous/timed.py:31-70",
+          "src/itsdangerous/signer.py:211-250",
+          "src/itsdangerous/signer.py:61-100"
+        ]
+      },
+      {
+        "id": "bad-payload",
+        "latency_ms": 11.5,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 0.14285714285714285,
+        "ndcg": 0.39780880120575696,
+        "retrieved": [
+          "src/itsdangerous/url_safe.py:31-70",
+          "src/itsdangerous/timed.py:91-130",
+          "src/itsdangerous/timed.py:181-220",
+          "src/itsdangerous/timed.py:121-160",
+          "docs/serializer.rst:31-70",
+          "tests/test_itsdangerous/test_serializer.py:61-100",
+          "src/itsdangerous/serializer.py:241-280",
+          "src/itsdangerous/exc.py:61-100"
+        ]
+      },
+      {
+        "id": "exception-hierarchy",
+        "latency_ms": 10.7,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 0.125,
+        "ndcg": 0.31546487678572877,
+        "retrieved": [
+          "src/itsdangerous/url_safe.py:31-70",
+          "src/itsdangerous/timed.py:181-220",
+          "src/itsdangerous/timed.py:91-130",
+          "src/itsdangerous/serializer.py:331-370",
+          "src/itsdangerous/timed.py:211-228",
+          "CHANGES.rst:31-70",
+          "docs/serializer.rst:31-70",
+          "src/itsdangerous/exc.py:1-40"
+        ]
+      },
+      {
+        "id": "date-signed",
+        "latency_ms": 12.2,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 0.2,
+        "ndcg": 0.38685280723454163,
+        "retrieved": [
+          "src/itsdangerous/exc.py:61-100",
+          "src/itsdangerous/signer.py:1-40",
+          "src/itsdangerous/exc.py:91-106",
+          "src/itsdangerous/timed.py:91-130",
+          "src/itsdangerous/exc.py:31-70",
+          "src/itsdangerous/signer.py:211-250",
+          ".github/workflows/publish.yaml:31-70",
+          "README.md:1-40"
+        ]
+      },
+      {
+        "id": "base64-padding",
+        "latency_ms": 10.6,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 0.5,
+        "ndcg": 0.6309297535714575,
+        "retrieved": [
+          "tests/test_itsdangerous/test_encoding.py:1-37",
+          "src/itsdangerous/encoding.py:1-40",
+          "src/itsdangerous/url_safe.py:1-40",
+          "src/itsdangerous/__init__.py:1-38",
+          "CHANGES.rst:31-70",
+          "src/itsdangerous/signer.py:1-40",
+          "src/itsdangerous/url_safe.py:31-70",
+          "src/itsdangerous/encoding.py:31-54"
+        ]
+      },
+      {
+        "id": "int-to-bytes",
+        "latency_ms": 10.0,
+        "hit": 0.0,
+        "recall": 0.0,
+        "rr": 0.0,
+        "ndcg": 0.0,
+        "retrieved": [
+          "src/itsdangerous/timed.py:31-70",
+          "src/itsdangerous/timed.py:61-100",
+          "src/itsdangerous/serializer.py:121-160",
+          "src/itsdangerous/encoding.py:1-40",
+          "src/itsdangerous/signer.py:211-250",
+          "src/itsdangerous/signer.py:61-100",
+          "src/itsdangerous/signer.py:1-40",
+          "tests/test_itsdangerous/test_encoding.py:1-37"
+        ]
+      },
+      {
+        "id": "salt-purpose",
+        "latency_ms": 11.1,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 0.5,
+        "ndcg": 0.6309297535714575,
+        "retrieved": [
+          "src/itsdangerous/serializer.py:271-310",
+          "docs/concepts.rst:61-100",
+          "docs/concepts.rst:31-70",
+          "src/itsdangerous/signer.py:121-160",
+          "src/itsdangerous/signer.py:61-100",
+          "src/itsdangerous/serializer.py:331-370",
+          "src/itsdangerous/serializer.py:31-70",
+          "src/itsdangerous/serializer.py:181-220"
+        ]
+      },
+      {
+        "id": "generate-secret",
+        "latency_ms": 11.3,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 0.2,
+        "ndcg": 0.38685280723454163,
+        "retrieved": [
+          "src/itsdangerous/signer.py:181-220",
+          "src/itsdangerous/signer.py:61-100",
+          "src/itsdangerous/signer.py:151-190",
+          "docs/concepts.rst:91-130",
+          "docs/concepts.rst:31-70",
+          "docs/concepts.rst:1-40",
+          "src/itsdangerous/signer.py:121-160",
+          "src/itsdangerous/signer.py:211-250"
+        ]
+      },
+      {
+        "id": "default-salts",
+        "latency_ms": 10.8,
+        "hit": 1.0,
+        "recall": 0.3333333333333333,
+        "rr": 0.3333333333333333,
+        "ndcg": 0.23463936301137822,
+        "retrieved": [
+          "src/itsdangerous/serializer.py:61-100",
+          "src/itsdangerous/signer.py:91-130",
+          "src/itsdangerous/signer.py:121-160",
+          "src/itsdangerous/signer.py:61-100",
+          "src/itsdangerous/serializer.py:31-70",
+          "CHANGES.rst:61-100",
+          "src/itsdangerous/serializer.py:271-310",
+          "src/itsdangerous/serializer.py:91-130"
+        ]
+      }
+    ]
+  },
+  {
+    "mode": "hybrid",
+    "k": 8,
+    "hit_rate": 0.9615384615384616,
+    "recall": 0.9166666666666666,
+    "mrr": 0.5798076923076924,
+    "ndcg": 0.6352531831590661,
+    "p50_latency_ms": 11.9,
+    "rows": [
+      {
+        "id": "verify-multi-key",
+        "latency_ms": 13.2,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 0.25,
+        "ndcg": 0.43067655807339306,
+        "retrieved": [
+          "src/itsdangerous/signer.py:61-100",
+          "tests/test_itsdangerous/test_signer.py:61-100",
+          "src/itsdangerous/serializer.py:181-220",
+          "src/itsdangerous/signer.py:211-250",
+          "src/itsdangerous/signer.py:151-190",
+          "docs/concepts.rst:1-40",
+          "src/itsdangerous/signer.py:181-220",
+          "tests/test_itsdangerous/test_signer.py:1-40"
+        ]
+      },
+      {
+        "id": "signing-key-choice",
+        "latency_ms": 12.3,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 0.25,
+        "ndcg": 0.48247555939075504,
+        "retrieved": [
+          "src/itsdangerous/signer.py:61-100",
+          "src/itsdangerous/signer.py:181-220",
+          "docs/concepts.rst:91-130",
+          "src/itsdangerous/signer.py:151-190",
+          "src/itsdangerous/serializer.py:181-220",
+          "src/itsdangerous/signer.py:121-160",
+          "docs/concepts.rst:121-154",
+          "src/itsdangerous/signer.py:211-250"
+        ]
+      },
+      {
+        "id": "key-derivation-options",
+        "latency_ms": 11.2,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 1.0,
+        "ndcg": 0.8772153153380493,
+        "retrieved": [
+          "src/itsdangerous/signer.py:151-190",
+          "src/itsdangerous/signer.py:181-220",
+          "src/itsdangerous/signer.py:61-100",
+          "src/itsdangerous/signer.py:91-130",
+          "src/itsdangerous/signer.py:121-160",
+          "src/itsdangerous/signer.py:211-250",
+          "src/itsdangerous/signer.py:31-70",
+          "docs/concepts.rst:121-154"
+        ]
+      },
+      {
+        "id": "default-hash",
+        "latency_ms": 10.7,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 1.0,
+        "ndcg": 0.8315546295836225,
+        "retrieved": [
+          "src/itsdangerous/signer.py:91-130",
+          "src/itsdangerous/signer.py:61-100",
+          "docs/concepts.rst:121-154",
+          "src/itsdangerous/serializer.py:61-100",
+          "CHANGES.rst:91-130",
+          "src/itsdangerous/signer.py:31-70",
+          "tests/test_itsdangerous/test_signer.py:31-70",
+          "src/itsdangerous/signer.py:121-160"
+        ]
+      },
+      {
+        "id": "lazy-sha1",
+        "latency_ms": 11.9,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 0.25,
+        "ndcg": 0.43067655807339306,
+        "retrieved": [
+          "tests/test_itsdangerous/test_serializer.py:1-40",
+          "src/itsdangerous/url_safe.py:1-40",
+          "CHANGES.rst:1-40",
+          "src/itsdangerous/signer.py:31-70",
+          "CHANGES.rst:91-130",
+          "tests/test_itsdangerous/test_url_safe.py:1-24",
+          "src/itsdangerous/__init__.py:1-38",
+          "tests/test_itsdangerous/test_serializer.py:181-197"
+        ]
+      },
+      {
+        "id": "timing-attack",
+        "latency_ms": 10.1,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 0.25,
+        "ndcg": 0.43067655807339306,
+        "retrieved": [
+          "src/itsdangerous/timed.py:181-220",
+          "src/itsdangerous/exc.py:31-70",
+          "src/itsdangerous/timed.py:61-100",
+          "src/itsdangerous/signer.py:1-40",
+          "docs/signer.rst:1-40",
+          "src/itsdangerous/timed.py:121-160",
+          "src/itsdangerous/signer.py:211-250",
+          "docs/serializer.rst:61-100"
+        ]
+      },
+      {
+        "id": "bad-separator",
+        "latency_ms": 12.6,
+        "hit": 0.0,
+        "recall": 0.0,
+        "rr": 0.0,
+        "ndcg": 0.0,
+        "retrieved": [
+          "src/itsdangerous/url_safe.py:1-40",
+          "src/itsdangerous/encoding.py:1-40",
+          "src/itsdangerous/url_safe.py:31-70",
+          "src/itsdangerous/url_safe.py:61-83",
+          "tests/test_itsdangerous/test_encoding.py:1-37",
+          "CHANGES.rst:121-160",
+          "src/itsdangerous/exc.py:61-100",
+          "src/itsdangerous/encoding.py:31-54"
+        ]
+      },
+      {
+        "id": "none-algorithm",
+        "latency_ms": 11.9,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 1.0,
+        "ndcg": 1.0,
+        "retrieved": [
+          "src/itsdangerous/signer.py:31-70",
+          "src/itsdangerous/signer.py:1-40",
+          "tests/test_itsdangerous/test_signer.py:1-40",
+          "docs/signer.rst:31-49",
+          "tests/test_itsdangerous/test_signer.py:61-100",
+          "src/itsdangerous/__init__.py:1-38",
+          "tests/test_itsdangerous/test_signer.py:91-109",
+          "src/itsdangerous/signer.py:151-190"
+        ]
+      },
+      {
+        "id": "unsign-missing-sep",
+        "latency_ms": 16.9,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 1.0,
+        "ndcg": 1.0,
+        "retrieved": [
+          "src/itsdangerous/signer.py:241-266",
+          "src/itsdangerous/timed.py:91-130",
+          "tests/test_itsdangerous/test_signer.py:61-100",
+          "tests/test_itsdangerous/test_serializer.py:151-190",
+          "src/itsdangerous/timed.py:61-100",
+          "tests/test_itsdangerous/test_serializer.py:91-130",
+          "src/itsdangerous/exc.py:91-106",
+          "tests/test_itsdangerous/test_serializer.py:181-197"
+        ]
+      },
+      {
+        "id": "timestamp-format",
+        "latency_ms": 14.7,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 0.2,
+        "ndcg": 0.38685280723454163,
+        "retrieved": [
+          "src/itsdangerous/timed.py:151-190",
+          "tests/test_itsdangerous/test_timed.py:31-70",
+          "src/itsdangerous/timed.py:121-160",
+          "src/itsdangerous/timed.py:61-100",
+          "src/itsdangerous/timed.py:31-70",
+          "src/itsdangerous/timed.py:1-40",
+          "docs/timed.rst:1-28",
+          "tests/test_itsdangerous/test_timed.py:91-115"
+        ]
+      },
+      {
+        "id": "max-age-expired",
+        "latency_ms": 18.6,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 1.0,
+        "ndcg": 0.8503449055347546,
+        "retrieved": [
+          "src/itsdangerous/timed.py:121-160",
+          "src/itsdangerous/timed.py:181-220",
+          "tests/test_itsdangerous/test_timed.py:31-70",
+          "src/itsdangerous/timed.py:211-228",
+          "src/itsdangerous/exc.py:61-100",
+          "tests/test_itsdangerous/test_timed.py:61-100",
+          "tests/test_itsdangerous/test_timed.py:91-115",
+          "src/itsdangerous/exc.py:31-70"
+        ]
+      },
+      {
+        "id": "future-timestamp",
+        "latency_ms": 16.4,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 0.3333333333333333,
+        "ndcg": 0.5,
+        "retrieved": [
+          "README.md:1-40",
+          "src/itsdangerous/timed.py:61-100",
+          "src/itsdangerous/timed.py:121-160",
+          "src/itsdangerous/timed.py:1-40",
+          "docs/timed.rst:1-28",
+          "src/itsdangerous/timed.py:91-130",
+          "src/itsdangerous/timed.py:31-70",
+          "src/itsdangerous/timed.py:181-220"
+        ]
+      },
+      {
+        "id": "when-signed",
+        "latency_ms": 12.1,
+        "hit": 1.0,
+        "recall": 0.3333333333333333,
+        "rr": 0.16666666666666666,
+        "ndcg": 0.16716045496620227,
+        "retrieved": [
+          "tests/test_itsdangerous/test_timed.py:31-70",
+          "src/itsdangerous/signer.py:241-266",
+          "tests/test_itsdangerous/test_timed.py:61-100",
+          "tests/test_itsdangerous/test_timed.py:91-115",
+          "tests/test_itsdangerous/test_serializer.py:61-100",
+          "src/itsdangerous/timed.py:151-190",
+          "tests/test_itsdangerous/test_signer.py:31-70",
+          "src/itsdangerous/signer.py:211-250"
+        ]
+      },
+      {
+        "id": "url-safe-compression",
+        "latency_ms": 11.9,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 0.25,
+        "ndcg": 0.43067655807339306,
+        "retrieved": [
+          "docs/url_safe.rst:1-21",
+          "src/itsdangerous/serializer.py:241-280",
+          "src/itsdangerous/url_safe.py:1-40",
+          "src/itsdangerous/url_safe.py:61-83",
+          "tests/test_itsdangerous/test_serializer.py:31-70",
+          "docs/serializer.rst:31-70",
+          "docs/serializer.rst:1-40",
+          "README.md:1-40"
+        ]
+      },
+      {
+        "id": "url-safe-decompress",
+        "latency_ms": 12.1,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 1.0,
+        "ndcg": 1.0,
+        "retrieved": [
+          "src/itsdangerous/url_safe.py:31-70",
+          "docs/serializer.rst:31-70",
+          "src/itsdangerous/url_safe.py:1-40",
+          "src/itsdangerous/url_safe.py:61-83",
+          "src/itsdangerous/serializer.py:391-406",
+          "src/itsdangerous/serializer.py:361-400",
+          "src/itsdangerous/serializer.py:241-280",
+          "src/itsdangerous/serializer.py:331-370"
+        ]
+      },
+      {
+        "id": "fallback-signers",
+        "latency_ms": 12.6,
+        "hit": 1.0,
+        "recall": 0.5,
+        "rr": 0.5,
+        "ndcg": 0.38685280723454163,
+        "retrieved": [
+          "src/itsdangerous/serializer.py:211-250",
+          "src/itsdangerous/serializer.py:61-100",
+          "src/itsdangerous/serializer.py:91-130",
+          "tests/test_itsdangerous/test_serializer.py:151-190",
+          "tests/test_itsdangerous/test_serializer.py:121-160",
+          "src/itsdangerous/serializer.py:151-190",
+          "src/itsdangerous/serializer.py:31-70",
+          "docs/serializer.rst:61-100"
+        ]
+      },
+      {
+        "id": "loads-multiple-signers",
+        "latency_ms": 12.7,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 0.16666666666666666,
+        "ndcg": 0.3562071871080222,
+        "retrieved": [
+          "src/itsdangerous/serializer.py:211-250",
+          "src/itsdangerous/serializer.py:61-100",
+          "tests/test_itsdangerous/test_serializer.py:121-160",
+          "docs/serializer.rst:61-100",
+          "tests/test_itsdangerous/test_serializer.py:151-190",
+          "src/itsdangerous/serializer.py:331-370",
+          "src/itsdangerous/serializer.py:31-70",
+          "src/itsdangerous/serializer.py:91-130"
+        ]
+      },
+      {
+        "id": "loads-unsafe",
+        "latency_ms": 11.3,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 1.0,
+        "ndcg": 1.0,
+        "retrieved": [
+          "src/itsdangerous/serializer.py:361-400",
+          "src/itsdangerous/serializer.py:331-370",
+          "src/itsdangerous/serializer.py:241-280",
+          "docs/serializer.rst:61-100",
+          "src/itsdangerous/serializer.py:391-406",
+          "src/itsdangerous/timed.py:181-220",
+          "src/itsdangerous/serializer.py:301-340",
+          "CHANGES.rst:1-40"
+        ]
+      },
+      {
+        "id": "bad-payload",
+        "latency_ms": 11.9,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 0.3333333333333333,
+        "ndcg": 0.5706417189553201,
+        "retrieved": [
+          "src/itsdangerous/url_safe.py:31-70",
+          "docs/serializer.rst:31-70",
+          "src/itsdangerous/exc.py:91-106",
+          "src/itsdangerous/serializer.py:241-280",
+          "src/itsdangerous/exc.py:61-100",
+          "src/itsdangerous/timed.py:91-130",
+          "CHANGES.rst:211-250",
+          "src/itsdangerous/url_safe.py:1-40"
+        ]
+      },
+      {
+        "id": "exception-hierarchy",
+        "latency_ms": 11.2,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 1.0,
+        "ndcg": 1.0,
+        "retrieved": [
+          "src/itsdangerous/exc.py:1-40",
+          "src/itsdangerous/exc.py:91-106",
+          "src/itsdangerous/url_safe.py:31-70",
+          "src/itsdangerous/timed.py:211-228",
+          "src/itsdangerous/serializer.py:331-370",
+          "src/itsdangerous/exc.py:61-100",
+          "src/itsdangerous/timed.py:91-130",
+          "docs/exceptions.rst:1-22"
+        ]
+      },
+      {
+        "id": "date-signed",
+        "latency_ms": 11.5,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 0.5,
+        "ndcg": 0.6309297535714575,
+        "retrieved": [
+          "src/itsdangerous/exc.py:61-100",
+          "src/itsdangerous/exc.py:31-70",
+          "src/itsdangerous/timed.py:181-220",
+          "src/itsdangerous/exc.py:91-106",
+          "src/itsdangerous/timed.py:91-130",
+          "src/itsdangerous/timed.py:121-160",
+          "src/itsdangerous/timed.py:61-100",
+          "README.md:1-40"
+        ]
+      },
+      {
+        "id": "base64-padding",
+        "latency_ms": 11.0,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 1.0,
+        "ndcg": 1.0,
+        "retrieved": [
+          "src/itsdangerous/encoding.py:1-40",
+          "src/itsdangerous/url_safe.py:1-40",
+          "tests/test_itsdangerous/test_encoding.py:1-37",
+          "src/itsdangerous/encoding.py:31-54",
+          "src/itsdangerous/url_safe.py:31-70",
+          "docs/encoding.rst:1-8",
+          "CHANGES.rst:1-40",
+          "src/itsdangerous/url_safe.py:61-83"
+        ]
+      },
+      {
+        "id": "int-to-bytes",
+        "latency_ms": 10.8,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 0.125,
+        "ndcg": 0.31546487678572877,
+        "retrieved": [
+          "src/itsdangerous/timed.py:31-70",
+          "src/itsdangerous/timed.py:61-100",
+          "src/itsdangerous/timed.py:1-40",
+          "src/itsdangerous/timed.py:91-130",
+          "src/itsdangerous/encoding.py:1-40",
+          "src/itsdangerous/timed.py:121-160",
+          "tests/test_itsdangerous/test_encoding.py:1-37",
+          "src/itsdangerous/encoding.py:31-54"
+        ]
+      },
+      {
+        "id": "salt-purpose",
+        "latency_ms": 10.8,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 1.0,
+        "ndcg": 1.0,
+        "retrieved": [
+          "docs/concepts.rst:61-100",
+          "docs/concepts.rst:31-70",
+          "src/itsdangerous/serializer.py:211-250",
+          "src/itsdangerous/serializer.py:181-220",
+          "src/itsdangerous/serializer.py:361-400",
+          "src/itsdangerous/serializer.py:271-310",
+          "CHANGES.rst:121-160",
+          "src/itsdangerous/serializer.py:331-370"
+        ]
+      },
+      {
+        "id": "generate-secret",
+        "latency_ms": 10.9,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 0.5,
+        "ndcg": 0.6309297535714575,
+        "retrieved": [
+          "src/itsdangerous/signer.py:181-220",
+          "docs/concepts.rst:31-70",
+          "src/itsdangerous/signer.py:151-190",
+          "src/itsdangerous/signer.py:61-100",
+          "src/itsdangerous/signer.py:211-250",
+          "src/itsdangerous/signer.py:121-160",
+          "docs/concepts.rst:121-154",
+          "docs/concepts.rst:91-130"
+        ]
+      },
+      {
+        "id": "default-salts",
+        "latency_ms": 13.3,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 1.0,
+        "ndcg": 0.8072467605676945,
+        "retrieved": [
+          "src/itsdangerous/serializer.py:211-250",
+          "src/itsdangerous/serializer.py:181-220",
+          "src/itsdangerous/serializer.py:331-370",
+          "docs/concepts.rst:61-100",
+          "src/itsdangerous/signer.py:151-190",
+          "src/itsdangerous/signer.py:91-130",
+          "src/itsdangerous/signer.py:121-160",
+          "docs/concepts.rst:31-70"
+        ]
+      }
+    ]
+  },
+  {
+    "mode": "hybrid+rerank",
+    "k": 8,
+    "hit_rate": 0.9230769230769231,
+    "recall": 0.8589743589743589,
+    "mrr": 0.7076923076923077,
+    "ndcg": 0.7120136946693649,
+    "p50_latency_ms": 2284.25,
+    "rows": [
+      {
+        "id": "verify-multi-key",
+        "latency_ms": 1974.0,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 0.3333333333333333,
+        "ndcg": 0.5,
+        "retrieved": [
+          "docs/concepts.rst:121-154",
+          "src/itsdangerous/signer.py:61-100",
+          "src/itsdangerous/signer.py:211-250",
+          "docs/concepts.rst:1-40",
+          "src/itsdangerous/serializer.py:31-70",
+          "docs/signer.rst:1-40",
+          "tests/test_itsdangerous/test_signer.py:91-109",
+          "src/itsdangerous/serializer.py:181-220"
+        ]
+      },
+      {
+        "id": "signing-key-choice",
+        "latency_ms": 2285.0,
+        "hit": 1.0,
+        "recall": 0.5,
+        "rr": 0.3333333333333333,
+        "ndcg": 0.3065735963827292,
+        "retrieved": [
+          "src/itsdangerous/signer.py:61-100",
+          "docs/concepts.rst:91-130",
+          "src/itsdangerous/signer.py:121-160",
+          "src/itsdangerous/serializer.py:31-70",
+          "src/itsdangerous/serializer.py:181-220",
+          "docs/serializer.rst:61-100",
+          "docs/concepts.rst:121-154",
+          "docs/concepts.rst:1-40"
+        ]
+      },
+      {
+        "id": "key-derivation-options",
+        "latency_ms": 2112.2,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 1.0,
+        "ndcg": 1.0,
+        "retrieved": [
+          "src/itsdangerous/signer.py:181-220",
+          "src/itsdangerous/signer.py:91-130",
+          "src/itsdangerous/signer.py:151-190",
+          "src/itsdangerous/signer.py:121-160",
+          "src/itsdangerous/signer.py:61-100",
+          "CHANGES.rst:241-280",
+          "src/itsdangerous/serializer.py:61-100",
+          "src/itsdangerous/signer.py:211-250"
+        ]
+      },
+      {
+        "id": "default-hash",
+        "latency_ms": 2159.9,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 1.0,
+        "ndcg": 0.9197207891481876,
+        "retrieved": [
+          "src/itsdangerous/signer.py:91-130",
+          "src/itsdangerous/signer.py:61-100",
+          "src/itsdangerous/signer.py:31-70",
+          "src/itsdangerous/signer.py:121-160",
+          "src/itsdangerous/serializer.py:61-100",
+          "src/itsdangerous/serializer.py:91-130",
+          "docs/concepts.rst:121-154",
+          "src/itsdangerous/serializer.py:31-70"
+        ]
+      },
+      {
+        "id": "lazy-sha1",
+        "latency_ms": 2165.9,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 1.0,
+        "ndcg": 1.0,
+        "retrieved": [
+          "src/itsdangerous/signer.py:31-70",
+          "CHANGES.rst:1-40",
+          "CHANGES.rst:61-100",
+          "tests/test_itsdangerous/test_serializer.py:1-40",
+          "src/itsdangerous/signer.py:91-130",
+          "CHANGES.rst:91-130",
+          "src/itsdangerous/signer.py:1-40",
+          "CHANGES.rst:31-70"
+        ]
+      },
+      {
+        "id": "timing-attack",
+        "latency_ms": 2114.0,
+        "hit": 0.0,
+        "recall": 0.0,
+        "rr": 0.0,
+        "ndcg": 0.0,
+        "retrieved": [
+          "docs/concepts.rst:91-130",
+          "src/itsdangerous/timed.py:181-220",
+          "docs/serializer.rst:31-70",
+          "src/itsdangerous/timed.py:91-130",
+          "src/itsdangerous/timed.py:151-190",
+          "src/itsdangerous/timed.py:121-160",
+          "src/itsdangerous/timed.py:61-100",
+          "docs/serializer.rst:61-100"
+        ]
+      },
+      {
+        "id": "bad-separator",
+        "latency_ms": 2388.0,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 1.0,
+        "ndcg": 1.0,
+        "retrieved": [
+          "src/itsdangerous/signer.py:121-160",
+          "CHANGES.rst:121-160",
+          "src/itsdangerous/url_safe.py:61-83",
+          "src/itsdangerous/signer.py:211-250",
+          "src/itsdangerous/encoding.py:31-54",
+          "docs/encoding.rst:1-8",
+          "src/itsdangerous/__init__.py:1-38",
+          "src/itsdangerous/encoding.py:1-40"
+        ]
+      },
+      {
+        "id": "none-algorithm",
+        "latency_ms": 2168.4,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 1.0,
+        "ndcg": 1.0,
+        "retrieved": [
+          "src/itsdangerous/signer.py:31-70",
+          "tests/test_itsdangerous/test_signer.py:1-40",
+          "docs/signer.rst:31-49",
+          "src/itsdangerous/signer.py:151-190",
+          "tests/test_itsdangerous/test_signer.py:61-100",
+          "tests/test_itsdangerous/test_signer.py:91-109",
+          "src/itsdangerous/__init__.py:1-38",
+          "src/itsdangerous/signer.py:1-40"
+        ]
+      },
+      {
+        "id": "unsign-missing-sep",
+        "latency_ms": 2190.0,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 0.2,
+        "ndcg": 0.38685280723454163,
+        "retrieved": [
+          "src/itsdangerous/timed.py:61-100",
+          "src/itsdangerous/timed.py:91-130",
+          "tests/test_itsdangerous/test_signer.py:61-100",
+          "tests/test_itsdangerous/test_signer.py:31-70",
+          "src/itsdangerous/signer.py:241-266",
+          "CHANGES.rst:271-283",
+          "CHANGES.rst:121-160",
+          "src/itsdangerous/serializer.py:331-370"
+        ]
+      },
+      {
+        "id": "timestamp-format",
+        "latency_ms": 2307.6,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 0.5,
+        "ndcg": 0.6309297535714575,
+        "retrieved": [
+          "src/itsdangerous/timed.py:151-190",
+          "src/itsdangerous/timed.py:31-70",
+          "docs/timed.rst:1-28",
+          "src/itsdangerous/timed.py:121-160",
+          "src/itsdangerous/timed.py:61-100",
+          "tests/test_itsdangerous/test_timed.py:31-70",
+          "CHANGES.rst:121-160",
+          "src/itsdangerous/timed.py:91-130"
+        ]
+      },
+      {
+        "id": "max-age-expired",
+        "latency_ms": 2168.5,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 1.0,
+        "ndcg": 0.8772153153380493,
+        "retrieved": [
+          "src/itsdangerous/exc.py:61-100",
+          "src/itsdangerous/timed.py:181-220",
+          "src/itsdangerous/timed.py:211-228",
+          "src/itsdangerous/timed.py:121-160",
+          "src/itsdangerous/exc.py:31-70",
+          "tests/test_itsdangerous/test_timed.py:31-70",
+          "docs/timed.rst:1-28",
+          "tests/test_itsdangerous/test_timed.py:91-115"
+        ]
+      },
+      {
+        "id": "future-timestamp",
+        "latency_ms": 1955.3,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 0.2,
+        "ndcg": 0.38685280723454163,
+        "retrieved": [
+          "README.md:1-40",
+          "src/itsdangerous/exc.py:61-100",
+          "src/itsdangerous/timed.py:91-130",
+          "src/itsdangerous/timed.py:1-40",
+          "src/itsdangerous/timed.py:121-160",
+          "src/itsdangerous/timed.py:151-190",
+          "src/itsdangerous/timed.py:61-100",
+          "docs/timed.rst:1-28"
+        ]
+      },
+      {
+        "id": "when-signed",
+        "latency_ms": 2036.4,
+        "hit": 1.0,
+        "recall": 0.6666666666666666,
+        "rr": 0.5,
+        "ndcg": 0.4441228664487979,
+        "retrieved": [
+          "src/itsdangerous/signer.py:241-266",
+          "src/itsdangerous/timed.py:151-190",
+          "src/itsdangerous/signer.py:211-250",
+          "tests/test_itsdangerous/test_timed.py:61-100",
+          "tests/test_itsdangerous/test_signer.py:31-70",
+          "tests/test_itsdangerous/test_serializer.py:91-130",
+          "src/itsdangerous/signer.py:61-100",
+          "src/itsdangerous/timed.py:61-100"
+        ]
+      },
+      {
+        "id": "url-safe-compression",
+        "latency_ms": 2208.7,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 0.3333333333333333,
+        "ndcg": 0.5,
+        "retrieved": [
+          "docs/url_safe.rst:1-21",
+          "docs/concepts.rst:61-100",
+          "src/itsdangerous/url_safe.py:61-83",
+          "docs/serializer.rst:31-70",
+          "src/itsdangerous/url_safe.py:1-40",
+          "docs/concepts.rst:31-70",
+          "docs/concepts.rst:1-40",
+          "docs/serializer.rst:1-40"
+        ]
+      },
+      {
+        "id": "url-safe-decompress",
+        "latency_ms": 2306.2,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 1.0,
+        "ndcg": 1.0,
+        "retrieved": [
+          "src/itsdangerous/url_safe.py:31-70",
+          "src/itsdangerous/url_safe.py:61-83",
+          "docs/serializer.rst:31-70",
+          "src/itsdangerous/exc.py:91-106",
+          "docs/serializer.rst:61-100",
+          "src/itsdangerous/serializer.py:361-400",
+          "src/itsdangerous/url_safe.py:1-40",
+          "README.md:1-40"
+        ]
+      },
+      {
+        "id": "fallback-signers",
+        "latency_ms": 2259.7,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 1.0,
+        "ndcg": 0.9197207891481876,
+        "retrieved": [
+          "src/itsdangerous/serializer.py:61-100",
+          "docs/serializer.rst:91-112",
+          "src/itsdangerous/serializer.py:271-310",
+          "src/itsdangerous/serializer.py:211-250",
+          "docs/serializer.rst:61-100",
+          "src/itsdangerous/serializer.py:91-130",
+          "src/itsdangerous/serializer.py:151-190",
+          "docs/concepts.rst:1-40"
+        ]
+      },
+      {
+        "id": "loads-multiple-signers",
+        "latency_ms": 2283.5,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 1.0,
+        "ndcg": 1.0,
+        "retrieved": [
+          "src/itsdangerous/serializer.py:331-370",
+          "docs/serializer.rst:61-100",
+          "docs/serializer.rst:1-40",
+          "src/itsdangerous/serializer.py:61-100",
+          "src/itsdangerous/serializer.py:91-130",
+          "tests/test_itsdangerous/test_serializer.py:121-160",
+          "tests/test_itsdangerous/test_serializer.py:91-130",
+          "src/itsdangerous/serializer.py:211-250"
+        ]
+      },
+      {
+        "id": "loads-unsafe",
+        "latency_ms": 2348.1,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 0.5,
+        "ndcg": 0.6309297535714575,
+        "retrieved": [
+          "docs/serializer.rst:61-100",
+          "src/itsdangerous/serializer.py:361-400",
+          "src/itsdangerous/serializer.py:391-406",
+          "src/itsdangerous/timed.py:211-228",
+          "src/itsdangerous/serializer.py:331-370",
+          "docs/serializer.rst:31-70",
+          "tests/test_itsdangerous/test_serializer.py:91-130",
+          "tests/test_itsdangerous/test_serializer.py:121-160"
+        ]
+      },
+      {
+        "id": "bad-payload",
+        "latency_ms": 2307.5,
+        "hit": 1.0,
+        "recall": 0.5,
+        "rr": 1.0,
+        "ndcg": 0.6131471927654584,
+        "retrieved": [
+          "src/itsdangerous/exc.py:91-106",
+          "src/itsdangerous/exc.py:61-100",
+          "CHANGES.rst:121-160",
+          "src/itsdangerous/url_safe.py:31-70",
+          "src/itsdangerous/serializer.py:331-370",
+          "src/itsdangerous/timed.py:211-228",
+          "CHANGES.rst:91-130",
+          "src/itsdangerous/exc.py:1-40"
+        ]
+      },
+      {
+        "id": "exception-hierarchy",
+        "latency_ms": 2296.8,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 0.5,
+        "ndcg": 0.6309297535714575,
+        "retrieved": [
+          "docs/exceptions.rst:1-22",
+          "src/itsdangerous/exc.py:1-40",
+          "docs/serializer.rst:1-40",
+          "docs/serializer.rst:31-70",
+          "src/itsdangerous/exc.py:91-106",
+          "CHANGES.rst:61-100",
+          "CONTRIBUTING.rst:31-70",
+          "src/itsdangerous/exc.py:61-100"
+        ]
+      },
+      {
+        "id": "date-signed",
+        "latency_ms": 2291.5,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 1.0,
+        "ndcg": 1.0,
+        "retrieved": [
+          "src/itsdangerous/exc.py:31-70",
+          "src/itsdangerous/timed.py:181-220",
+          "src/itsdangerous/timed.py:211-228",
+          "src/itsdangerous/exc.py:91-106",
+          "src/itsdangerous/exc.py:61-100",
+          "docs/concepts.rst:91-130",
+          "docs/timed.rst:1-28",
+          "CHANGES.rst:241-280"
+        ]
+      },
+      {
+        "id": "base64-padding",
+        "latency_ms": 2289.0,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 1.0,
+        "ndcg": 1.0,
+        "retrieved": [
+          "src/itsdangerous/encoding.py:31-54",
+          "src/itsdangerous/url_safe.py:61-83",
+          "docs/encoding.rst:1-8",
+          "CHANGES.rst:121-160",
+          "src/itsdangerous/encoding.py:1-40",
+          "src/itsdangerous/signer.py:1-40",
+          "tests/test_itsdangerous/test_encoding.py:1-37",
+          "src/itsdangerous/__init__.py:1-38"
+        ]
+      },
+      {
+        "id": "int-to-bytes",
+        "latency_ms": 2452.1,
+        "hit": 0.0,
+        "recall": 0.0,
+        "rr": 0.0,
+        "ndcg": 0.0,
+        "retrieved": [
+          "src/itsdangerous/timed.py:31-70",
+          "src/itsdangerous/timed.py:61-100",
+          "src/itsdangerous/timed.py:91-130",
+          "CHANGES.rst:121-160",
+          "src/itsdangerous/timed.py:151-190",
+          "src/itsdangerous/timed.py:121-160",
+          "src/itsdangerous/timed.py:1-40",
+          "src/itsdangerous/timed.py:181-220"
+        ]
+      },
+      {
+        "id": "salt-purpose",
+        "latency_ms": 2295.7,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 1.0,
+        "ndcg": 1.0,
+        "retrieved": [
+          "docs/concepts.rst:61-100",
+          "docs/concepts.rst:31-70",
+          "src/itsdangerous/serializer.py:31-70",
+          "docs/serializer.rst:61-100",
+          "src/itsdangerous/signer.py:61-100",
+          "docs/concepts.rst:91-130",
+          "src/itsdangerous/signer.py:91-130",
+          "src/itsdangerous/serializer.py:211-250"
+        ]
+      },
+      {
+        "id": "generate-secret",
+        "latency_ms": 2317.5,
+        "hit": 1.0,
+        "recall": 1.0,
+        "rr": 1.0,
+        "ndcg": 1.0,
+        "retrieved": [
+          "docs/concepts.rst:31-70",
+          "src/itsdangerous/signer.py:181-220",
+          "docs/index.rst:1-40",
+          "docs/concepts.rst:1-40",
+          "docs/concepts.rst:121-154",
+          "docs/concepts.rst:91-130",
+          "src/itsdangerous/signer.py:61-100",
+          "src/itsdangerous/serializer.py:31-70"
+        ]
+      },
+      {
+        "id": "default-salts",
+        "latency_ms": 2303.8,
+        "hit": 1.0,
+        "recall": 0.6666666666666666,
+        "rr": 1.0,
+        "ndcg": 0.7653606369886217,
+        "retrieved": [
+          "src/itsdangerous/serializer.py:211-250",
+          "src/itsdangerous/signer.py:121-160",
+          "src/itsdangerous/serializer.py:31-70",
+          "src/itsdangerous/signer.py:151-190",
+          "src/itsdangerous/signer.py:91-130",
+          "docs/concepts.rst:61-100",
+          "src/itsdangerous/serializer.py:181-220",
+          "docs/serializer.rst:61-100"
+        ]
+      }
+    ]
+  }
+]

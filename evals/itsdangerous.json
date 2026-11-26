@@ -1,0 +1,188 @@
+{
+  "repo": "https://github.com/pallets/itsdangerous",
+  "ref": "2.2.0",
+  "questions": [
+    {
+      "id": "verify-multi-key",
+      "question": "How does the signer check a signature when several secret keys are configured?",
+      "relevant": [{"path": "src/itsdangerous/signer.py", "start": 227, "end": 242}],
+      "reference": "Signer.verify_signature base64-decodes the signature, then tries each secret key from newest to oldest (reversed secret_keys), derives a key from it and returns True on the first key whose algorithm signature matches; otherwise False."
+    },
+    {
+      "id": "signing-key-choice",
+      "question": "When I pass a list of secret keys, which one is used to create new signatures?",
+      "relevant": [
+        {"path": "src/itsdangerous/signer.py", "start": 138, "end": 143},
+        {"path": "src/itsdangerous/signer.py", "start": 175, "end": 180}
+      ],
+      "reference": "The newest key, which is the last item of the secret_keys list. Older keys are only kept so existing signatures can still be verified."
+    },
+    {
+      "id": "key-derivation-options",
+      "question": "What key derivation methods are supported and which one is the default?",
+      "relevant": [
+        {"path": "src/itsdangerous/signer.py", "start": 122, "end": 127},
+        {"path": "src/itsdangerous/signer.py", "start": 182, "end": 213}
+      ],
+      "reference": "concat, django-concat, hmac and none. The default is django-concat, which hashes salt + b'signer' + secret key. An unknown method raises TypeError."
+    },
+    {
+      "id": "default-hash",
+      "question": "Which hash function is used by default for signing?",
+      "relevant": [
+        {"path": "src/itsdangerous/signer.py", "start": 40, "end": 54},
+        {"path": "src/itsdangerous/signer.py", "start": 120, "end": 120}
+      ],
+      "reference": "SHA-1, through the _lazy_sha1 helper used as default_digest_method, combined with HMAC."
+    },
+    {
+      "id": "lazy-sha1",
+      "question": "Why is hashlib.sha1 only accessed at runtime instead of at import?",
+      "relevant": [{"path": "src/itsdangerous/signer.py", "start": 40, "end": 45}],
+      "reference": "FIPS builds of Python may not include SHA-1, so using it eagerly as a default would fail at import before the developer can configure a different digest method."
+    },
+    {
+      "id": "timing-attack",
+      "question": "How is the signature comparison protected against timing attacks?",
+      "relevant": [{"path": "src/itsdangerous/signer.py", "start": 24, "end": 28}],
+      "reference": "SigningAlgorithm.verify_signature compares the expected and given signatures with hmac.compare_digest, a constant-time comparison."
+    },
+    {
+      "id": "bad-separator",
+      "question": "What happens if I choose a separator character that could appear in base64?",
+      "relevant": [{"path": "src/itsdangerous/signer.py", "start": 144, "end": 151}],
+      "reference": "The Signer constructor raises ValueError, because ASCII letters, digits and '-_=' can appear in the signature itself."
+    },
+    {
+      "id": "none-algorithm",
+      "question": "What does NoneAlgorithm do?",
+      "relevant": [{"path": "src/itsdangerous/signer.py", "start": 31, "end": 37}],
+      "reference": "It performs no signing: get_signature always returns an empty byte string."
+    },
+    {
+      "id": "unsign-missing-sep",
+      "question": "What error do I get when unsigning a value that has no separator in it?",
+      "relevant": [{"path": "src/itsdangerous/signer.py", "start": 244, "end": 256}],
+      "reference": "Signer.unsign raises BadSignature saying no separator was found. If the separator is present but the signature does not match it raises BadSignature with the payload attached."
+    },
+    {
+      "id": "timestamp-format",
+      "question": "How is the timestamp stored inside a value signed by TimestampSigner?",
+      "relevant": [{"path": "src/itsdangerous/timed.py", "start": 45, "end": 51}],
+      "reference": "The current integer timestamp is converted to bytes and base64 encoded, appended to the value with the separator, and the signature is computed over value + sep + timestamp and appended after another separator."
+    },
+    {
+      "id": "max-age-expired",
+      "question": "Which exception is raised when a signed token is older than max_age?",
+      "relevant": [
+        {"path": "src/itsdangerous/timed.py", "start": 137, "end": 146},
+        {"path": "src/itsdangerous/exc.py", "start": 60, "end": 63}
+      ],
+      "reference": "SignatureExpired, a subclass of BadTimeSignature, with a message comparing the age to max_age and date_signed set to when the value was signed."
+    },
+    {
+      "id": "future-timestamp",
+      "question": "What happens if a token's timestamp is in the future?",
+      "relevant": [{"path": "src/itsdangerous/timed.py", "start": 148, "end": 153}],
+      "reference": "If max_age is given and the computed age is negative, unsign raises SignatureExpired with a message that the age is less than 0 seconds."
+    },
+    {
+      "id": "when-signed",
+      "question": "How can I find out when a value was signed?",
+      "relevant": [
+        {"path": "src/itsdangerous/timed.py", "start": 72, "end": 87},
+        {"path": "src/itsdangerous/timed.py", "start": 155, "end": 156},
+        {"path": "src/itsdangerous/timed.py", "start": 35, "end": 43}
+      ],
+      "reference": "Call unsign (or loads on a timed serializer) with return_timestamp=True; it returns the value together with a timezone-aware UTC datetime produced by timestamp_to_datetime."
+    },
+    {
+      "id": "url-safe-compression",
+      "question": "How does the URL safe serializer keep tokens short?",
+      "relevant": [{"path": "src/itsdangerous/url_safe.py", "start": 55, "end": 69}],
+      "reference": "dump_payload zlib-compresses the JSON and keeps the compressed form only if it is shorter, then base64 encodes it and prefixes a '.' to mark it as compressed."
+    },
+    {
+      "id": "url-safe-decompress",
+      "question": "How does loading know whether a URL safe payload was compressed?",
+      "relevant": [{"path": "src/itsdangerous/url_safe.py", "start": 23, "end": 53}],
+      "reference": "If the payload starts with '.', load_payload strips it and zlib-decompresses after base64 decoding; failures raise BadPayload."
+    },
+    {
+      "id": "fallback-signers",
+      "question": "What are fallback_signers used for in a Serializer?",
+      "relevant": [
+        {"path": "src/itsdangerous/serializer.py", "start": 289, "end": 309},
+        {"path": "src/itsdangerous/serializer.py", "start": 70, "end": 74}
+      ],
+      "reference": "They are extra signer configurations tried when unsigning, for example an older digest method. iter_unsigners yields the main signer first, then each fallback (a kwargs dict, a Signer class, or a (class, kwargs) tuple) for every secret key."
+    },
+    {
+      "id": "loads-multiple-signers",
+      "question": "How does Serializer.loads behave when the first signer fails?",
+      "relevant": [{"path": "src/itsdangerous/serializer.py", "start": 330, "end": 345}],
+      "reference": "It tries every signer from iter_unsigners in turn, returning the first successful load_payload result, and if all fail it re-raises the last BadSignature."
+    },
+    {
+      "id": "loads-unsafe",
+      "question": "What does loads_unsafe return and when should I use it?",
+      "relevant": [{"path": "src/itsdangerous/serializer.py", "start": 351, "end": 397}],
+      "reference": "It returns a (signature_valid, payload) tuple and still loads the payload when the signature is bad. It is meant for debugging only, with a serializer that is not exploitable."
+    },
+    {
+      "id": "bad-payload",
+      "question": "Which exception is raised when a payload can't be deserialized?",
+      "relevant": [
+        {"path": "src/itsdangerous/serializer.py", "start": 245, "end": 271},
+        {"path": "src/itsdangerous/exc.py", "start": 92, "end": 106}
+      ],
+      "reference": "BadPayload, a subclass of BadData, which can carry the original_error that caused decoding to fail."
+    },
+    {
+      "id": "exception-hierarchy",
+      "question": "What is the hierarchy of the exceptions this library defines?",
+      "relevant": [{"path": "src/itsdangerous/exc.py", "start": 7, "end": 106}],
+      "reference": "BadData is the base. BadSignature and BadPayload subclass it; BadTimeSignature and BadHeader subclass BadSignature; SignatureExpired subclasses BadTimeSignature."
+    },
+    {
+      "id": "date-signed",
+      "question": "Does the expired-signature error tell me when the token was originally created?",
+      "relevant": [{"path": "src/itsdangerous/exc.py", "start": 36, "end": 57}],
+      "reference": "Yes. BadTimeSignature (and so SignatureExpired) has a date_signed attribute with the timezone-aware datetime when the value was signed, useful for telling users how stale a link is."
+    },
+    {
+      "id": "base64-padding",
+      "question": "How does the library handle base64 padding?",
+      "relevant": [{"path": "src/itsdangerous/encoding.py", "start": 20, "end": 38}],
+      "reference": "base64_encode uses URL-safe base64 and strips trailing '=' padding; base64_decode adds the padding back before decoding and raises BadData on invalid input."
+    },
+    {
+      "id": "int-to-bytes",
+      "question": "How are integer timestamps turned into bytes?",
+      "relevant": [{"path": "src/itsdangerous/encoding.py", "start": 44, "end": 54}],
+      "reference": "With a big-endian unsigned 64-bit struct ('>Q'); int_to_bytes packs and strips leading zero bytes, bytes_to_int left-pads to 8 bytes and unpacks."
+    },
+    {
+      "id": "salt-purpose",
+      "question": "Why should different parts of an app use different salts?",
+      "relevant": [{"path": "docs/concepts.rst", "start": 56, "end": 99}],
+      "reference": "The salt is combined with the secret key to derive a unique key per context, so a token made for one purpose (for example an activation link) cannot be loaded by a serializer meant for another purpose."
+    },
+    {
+      "id": "generate-secret",
+      "question": "How should I generate and store the secret key?",
+      "relevant": [{"path": "docs/concepts.rst", "start": 18, "end": 54}],
+      "reference": "Use a long random string of bytes, for example from os.urandom, keep it secret, and load it from outside the code such as an environment variable rather than committing it."
+    },
+    {
+      "id": "default-salts",
+      "question": "What salt is used by default if I don't pass one?",
+      "relevant": [
+        {"path": "src/itsdangerous/signer.py", "start": 132, "end": 132},
+        {"path": "src/itsdangerous/signer.py", "start": 153, "end": 158},
+        {"path": "src/itsdangerous/serializer.py", "start": 192, "end": 216}
+      ],
+      "reference": "Signer defaults to b'itsdangerous.Signer' (also used when salt=None), while Serializer defaults to b'itsdangerous'."
+    }
+  ]
+}

@@ -33,6 +33,7 @@ CLONE_TIMEOUT_SECONDS = 180
 _GITHUB_URL = re.compile(
     r"^https://github\.com/([A-Za-z0-9][A-Za-z0-9-]*)/([A-Za-z0-9._-]+?)(?:\.git)?/?$"
 )
+_GIT_REF = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._/-]{0,99}$")
 
 
 class IngestError(Exception):
@@ -59,12 +60,23 @@ def normalize_github_url(url: str) -> str:
     return f"https://github.com/{match.group(1)}/{match.group(2)}"
 
 
-def clone_repo(url: str, dest: Path) -> None:
-    """Shallow-clone a public GitHub repository into `dest`."""
+def clone_repo(url: str, dest: Path, ref: str | None = None) -> None:
+    """Shallow-clone a public GitHub repository into `dest`, at a branch or tag if given."""
     # shortcut: no disk-size cap on clones; add one before accepting untrusted public traffic.
     safe_url = normalize_github_url(url)
+    branch = [] if ref is None else ["--branch", _safe_ref(ref)]
     env = {**os.environ, "GIT_TERMINAL_PROMPT": "0"}  # private repos fail fast instead of prompting
-    command = ["git", "clone", "--depth", "1", "--single-branch", "--", safe_url, str(dest)]
+    command = [
+        "git",
+        "clone",
+        "--depth",
+        "1",
+        "--single-branch",
+        *branch,
+        "--",
+        safe_url,
+        str(dest),
+    ]
     try:
         subprocess.run(  # noqa: S603 - fixed argv, URL validated above
             command, check=True, capture_output=True, timeout=CLONE_TIMEOUT_SECONDS, env=env
@@ -75,6 +87,13 @@ def clone_repo(url: str, dest: Path) -> None:
         raise IngestError(
             "could not clone the repository; is it public and spelled right?"
         ) from exc
+
+
+def _safe_ref(ref: str) -> str:
+    # Must not start with "-", or git would read it as an option.
+    if not _GIT_REF.match(ref):
+        raise IngestError("ref must be a branch or tag name like 'main' or 'v2.2.0'")
+    return ref
 
 
 def iter_source_files(root: Path, max_file_bytes: int, max_files: int) -> Iterator[tuple[str, str]]:

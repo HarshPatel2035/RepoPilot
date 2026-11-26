@@ -15,6 +15,7 @@ from repopilot.config import Settings
 from repopilot.embeddings import Embedder, FastEmbedder
 from repopilot.ingest import IngestError, normalize_github_url
 from repopilot.llm import Answerer, GroqAnswerer
+from repopilot.retrieval import FastReranker, Reranker, retrieve
 from repopilot.store import Store
 
 log = logging.getLogger(__name__)
@@ -77,6 +78,10 @@ def create_app(
         # Loaded on first use: the model download should not block startup or health checks.
         return embedder or FastEmbedder(settings.embed_model)
 
+    @cache
+    def get_reranker() -> Reranker | None:
+        return FastReranker(settings.rerank_model) if settings.rerank else None
+
     @asynccontextmanager
     async def lifespan(_: FastAPI) -> AsyncIterator[None]:
         store.init_schema()
@@ -125,8 +130,15 @@ def create_app(
             raise HTTPException(
                 status.HTTP_503_SERVICE_UNAVAILABLE, "GROQ_API_KEY is not set on the server"
             )
-        query_vector = get_embedder().embed_query(body.question)
-        hits = store.search(repo_id, body.question, query_vector, body.top_k or settings.top_k)
+        hits = retrieve(
+            store,
+            get_embedder(),
+            repo_id,
+            body.question,
+            body.top_k or settings.top_k,
+            mode=settings.search_mode,
+            reranker=get_reranker(),
+        )
         try:
             text = answerer.answer(body.question, hits)
         except Exception as exc:

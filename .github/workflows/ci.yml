@@ -24,8 +24,8 @@ jobs:
     env:
       TEST_DATABASE_URL: postgresql://repopilot:repopilot@localhost:5432/repopilot_test
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.13"
           cache: pip
@@ -35,8 +35,55 @@ jobs:
       - run: ruff format --check .
       - run: pytest -v
 
+  # Retrieval quality gate: indexes the pinned eval repo with the real embedding model and
+  # fails the build if hybrid search drops below the thresholds. No API key needed.
+  retrieval-eval:
+    needs: test
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: pgvector/pgvector:pg18
+        env:
+          POSTGRES_USER: repopilot
+          POSTGRES_PASSWORD: repopilot
+          POSTGRES_DB: repopilot
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U repopilot"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgresql://repopilot:repopilot@localhost:5432/repopilot
+      FASTEMBED_CACHE_PATH: /home/runner/.cache/fastembed
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - run: pip install -e .
+      - uses: actions/cache@v4
+        with:
+          path: /home/runner/.cache/fastembed
+          key: fastembed-${{ hashFiles('repopilot/config.py') }}
+      - name: Retrieval eval + quality gate
+        shell: bash
+        run: |
+          python -m repopilot.evals retrieval --modes vector,keyword,hybrid \
+            --gate-mode hybrid --min-hit-rate 0.90 --min-mrr 0.50 \
+            --out eval-results/retrieval.json | tee eval-output.txt
+          { echo "### Retrieval eval (k=8)"; grep '^|' eval-output.txt; } >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: retrieval-eval
+          path: eval-results/
+
   docker:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: docker build -t repopilot .

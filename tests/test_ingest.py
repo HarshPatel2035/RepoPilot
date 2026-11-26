@@ -7,6 +7,7 @@ from repopilot.ingest import (
     MAX_CHUNK_CHARS,
     IngestError,
     chunk_lines,
+    clone_repo,
     iter_source_files,
     normalize_github_url,
 )
@@ -41,6 +42,12 @@ def test_normalize_github_url_accepts_public_repo_urls(url: str, expected: str) 
 def test_normalize_github_url_rejects_anything_else(url: str) -> None:
     with pytest.raises(IngestError):
         normalize_github_url(url)
+
+
+@pytest.mark.parametrize("ref", ["--upload-pack=touch /tmp/x", "-b", "a b", "x;rm", ""])
+def test_clone_repo_rejects_unsafe_refs(tmp_path: Path, ref: str) -> None:
+    with pytest.raises(IngestError):
+        clone_repo("https://github.com/a/b", tmp_path / "x", ref=ref)
 
 
 def _write(root: Path, rel: str, content: str | bytes) -> None:

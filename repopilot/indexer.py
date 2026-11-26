@@ -18,14 +18,19 @@ def embedding_text(chunk: Chunk) -> str:
 
 
 def index_repo(
-    store: Store, embedder: Embedder, settings: Settings, repo_id: int, url: str
+    store: Store,
+    embedder: Embedder,
+    settings: Settings,
+    repo_id: int,
+    url: str,
+    ref: str | None = None,
 ) -> None:
     """Build a repo's index. Never raises: failures are recorded on the repo row."""
     store.set_status(repo_id, "indexing")
     try:
         with tempfile.TemporaryDirectory(prefix="repopilot-") as tmp:
             checkout = Path(tmp) / "repo"
-            clone_repo(url, checkout)
+            clone_repo(url, checkout, ref=ref)
             files = iter_source_files(checkout, settings.max_file_bytes, settings.max_repo_files)
             chunks = [chunk for path, text in files for chunk in chunk_lines(path, text)]
         if not chunks:

@@ -69,6 +69,17 @@ def test_search_is_scoped_to_one_repo(store: Store, embedder: HashEmbedder) -> N
     assert [h["path"] for h in hits] == ["src/auth.py"]
 
 
+def test_search_modes_use_only_their_own_signal(store: Store, embedder: HashEmbedder) -> None:
+    repo_id = _index(store, embedder, "https://github.com/a/b", [AUTH, CACHE, DOCS])
+    unrelated_vector = embedder.embed_query("pip install dependencies setup")
+
+    keyword = store.search(repo_id, "LRUCache", unrelated_vector, k=3, mode="keyword")
+    vector = store.search(repo_id, "LRUCache", unrelated_vector, k=1, mode="vector")
+
+    assert [h["path"] for h in keyword] == ["src/cache.py"]  # keyword mode returns matches only
+    assert vector[0]["path"] == "README.md"  # vector mode follows the (unrelated) vector
+
+
 def test_replace_chunks_drops_the_previous_index(store: Store, embedder: HashEmbedder) -> None:
     repo_id = _index(store, embedder, "https://github.com/a/b", [AUTH, CACHE])
     store.replace_chunks(repo_id, [DOCS], embedder.embed_documents([DOCS.content]))

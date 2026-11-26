@@ -1,0 +1,56 @@
+name: generation-eval
+
+# Answers every golden question with the LLM and grades it with an LLM judge.
+# Manual only: it costs API calls and LLM output varies, so it is a report, not a gate.
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "Retrieval mode: hybrid, vector, keyword, hybrid+rerank"
+        default: hybrid
+
+jobs:
+  generation-eval:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: pgvector/pgvector:pg18
+        env:
+          POSTGRES_USER: repopilot
+          POSTGRES_PASSWORD: repopilot
+          POSTGRES_DB: repopilot
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U repopilot"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgresql://repopilot:repopilot@localhost:5432/repopilot
+      GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+      FASTEMBED_CACHE_PATH: /home/runner/.cache/fastembed
+      MODE: ${{ inputs.mode }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+      - run: pip install -e .
+      - uses: actions/cache@v4
+        with:
+          path: /home/runner/.cache/fastembed
+          key: fastembed-${{ hashFiles('repopilot/config.py') }}
+      - name: Generation eval
+        shell: bash
+        run: |
+          python -m repopilot.evals generation --mode "$MODE" \
+            --out eval-results/generation.json | tee eval-output.txt
+          { echo "### Generation eval"; grep '^|' eval-output.txt; } >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: generation-eval
+          path: eval-results/

@@ -45,7 +45,9 @@ def _client(store: Store, answerer: FakeAnswerer | None) -> TestClient:
 def client(
     store: Store, answerer: FakeAnswerer, sample_repo: Path, monkeypatch: pytest.MonkeyPatch
 ) -> Iterator[TestClient]:
-    monkeypatch.setattr(indexer, "clone_repo", lambda url, dest: shutil.copytree(sample_repo, dest))
+    monkeypatch.setattr(
+        indexer, "clone_repo", lambda url, dest, ref=None: shutil.copytree(sample_repo, dest)
+    )
     with _client(store, answerer) as test_client:
         yield test_client
 
@@ -99,7 +101,7 @@ def test_add_repo_rejects_non_github_urls(client: TestClient, url: str) -> None:
 def test_failed_clone_marks_repo_failed_and_blocks_questions(
     client: TestClient, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    def fail(url: str, dest: Path) -> None:
+    def fail(url: str, dest: Path, ref: str | None = None) -> None:
         raise IngestError("could not clone the repository")
 
     monkeypatch.setattr(indexer, "clone_repo", fail)
@@ -115,7 +117,7 @@ def test_failed_clone_marks_repo_failed_and_blocks_questions(
 def test_unexpected_indexing_error_is_not_leaked(
     client: TestClient, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    def crash(url: str, dest: Path) -> None:
+    def crash(url: str, dest: Path, ref: str | None = None) -> None:
         raise RuntimeError("secret internal path /srv/x")
 
     monkeypatch.setattr(indexer, "clone_repo", crash)
@@ -142,7 +144,9 @@ def test_ask_validates_question_length(client: TestClient) -> None:
 def test_ask_without_llm_key_returns_503(
     store: Store, sample_repo: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    monkeypatch.setattr(indexer, "clone_repo", lambda url, dest: shutil.copytree(sample_repo, dest))
+    monkeypatch.setattr(
+        indexer, "clone_repo", lambda url, dest, ref=None: shutil.copytree(sample_repo, dest)
+    )
     with _client(store, answerer=None) as no_llm:
         repo_id = no_llm.post("/repos", json={"url": REPO_URL}).json()["id"]
 

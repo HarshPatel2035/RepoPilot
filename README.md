@@ -6,7 +6,25 @@ RepoPilot clones a repository, splits its source into line-numbered chunks, embe
 Postgres with pgvector, and answers questions with **hybrid retrieval** (vector + keyword search,
 merged with Reciprocal Rank Fusion) and an LLM that must cite `[path:start-end]` for every claim.
 
-> Status: **Phase 1 of 6** — RAG core as a tested, containerised API. See [Roadmap](#roadmap).
+> Status: **Phase 2 of 6** — tested, containerised RAG API with a retrieval quality gate in CI.
+> See [Roadmap](#roadmap).
+
+## Evaluation
+
+Measured on a hand-labelled golden set of 26 questions about `pallets/itsdangerous@2.2.0`,
+at k = 8 (full method, metrics and limits in [evals/README.md](evals/README.md)):
+
+| Retrieval mode | Hit rate | MRR | p50 latency |
+|---|---|---|---|
+| vector only | 0.846 | 0.519 | 11 ms |
+| keyword only | 0.769 | 0.382 | 12 ms |
+| **hybrid (default)** | **0.962** | 0.580 | 12 ms |
+| hybrid + rerank | 0.923 | **0.708** | 2284 ms |
+
+The eval found that Postgres's `simple` text config made hybrid search *worse* than vector
+alone, and switching to `english` fixed it. It also showed the reranker is not worth ~2.3 s
+per question when the LLM reads all 8 chunks anyway. CI fails the build if hybrid hit rate
+drops below 0.90 or MRR below 0.50.
 
 ## Architecture
 
@@ -78,6 +96,10 @@ Response shape (sources are real retrieval results for this question; answer tex
 - **Hybrid search with Reciprocal Rank Fusion.** Embeddings find code by meaning ("where are
   passwords checked?"); Postgres full-text search finds exact identifiers (`LRUCache`) that
   embeddings often miss. RRF merges both rankings without having to tune score scales.
+  Full-text search uses the `english` config (stopwords removed, words stemmed), chosen
+  because the eval showed `simple` made hybrid worse than vector search alone.
+- **Reranking is optional.** A cross-encoder (`RERANK=true`) ranks the best chunk first more
+  often, but the eval measured ~2.3 s extra per question on CPU, so it is off by default.
 - **Line-based chunks with the file path prepended before embedding.** Every chunk keeps
   1-based line numbers so answers can cite `file:start-end`; prefixing the path lets a question
   about "auth" match code inside `auth.py`.
@@ -105,7 +127,8 @@ uvicorn --factory repopilot.api:create_app --reload
 ```
 
 Tests use a deterministic hash embedder and a fake LLM, so they run offline and fast. CI runs
-lint, the full test suite against a real pgvector service container, and a Docker build.
+lint, the full test suite against a real pgvector service container, the retrieval quality
+gate with the real embedding model, and a Docker build.
 
 ## Project layout
 
@@ -117,13 +140,17 @@ repopilot/
   store.py       Postgres schema, hybrid search (vector + full-text + RRF)
   embeddings.py  fastembed wrapper
   llm.py         prompt building and Groq client
-tests/           unit tests + database-backed store and API tests
+  retrieval.py   search modes + optional cross-encoder reranking
+  evals/         golden-set loader, metrics, LLM judge, eval runner and CLI
+evals/           golden question set, results and evaluation write-up
+tests/           unit tests + database-backed store, API and eval tests
 ```
 
 ## Roadmap
 
 1. **RAG core** — FastAPI, pgvector hybrid search, Docker, tests, CI ✅
-2. **Evaluation** — golden question set, RAGAS metrics, LLM-as-judge, eval gate in CI
+2. **Evaluation** — golden question set, retrieval metrics, LLM-as-judge, citation checks,
+   eval gate in CI ✅
 3. **Agent** — LangGraph agent with tools: search code, read file, run tests, draft issue replies
 4. **Issue classifier** — scikit-learn baseline vs LoRA-tuned small model, tracked in MLflow
 5. **Frontend + observability** — React UI, tracing, latency and cost dashboard
